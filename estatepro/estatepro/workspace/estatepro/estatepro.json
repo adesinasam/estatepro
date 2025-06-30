@@ -1,0 +1,249 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"4yMqY_dWld\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">EstatePro</span>\",\"col\":12}},{\"id\":\"pZLNks_NWO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Estate Project\",\"col\":3}},{\"id\":\"EqAjE137mz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Project Expense\",\"col\":3}},{\"id\":\"NRrPChlPTz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plots\",\"col\":3}},{\"id\":\"VPvjPu98Kq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plot Sale\",\"col\":3}},{\"id\":\"ZiHl7dNf5u\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CAxldy6rMD\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchases\",\"col\":4}},{\"id\":\"C2GIIW93AO\",\"type\":\"card\",\"data\":{\"card_name\":\"Income\",\"col\":4}},{\"id\":\"Lm0hoJ9F-O\",\"type\":\"card\",\"data\":{\"card_name\":\"Expenses\",\"col\":4}},{\"id\":\"OhSaiu343G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5CasaPr9X7\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"4XikpnxSaR\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"qWM0awFiRH\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}}]",
+ "creation": "2025-06-23 03:53:42.232974",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "workflow",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "EstatePro",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expenses",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project Expense",
+   "link_count": 0,
+   "link_to": "Project Expense",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Purchases",
+   "link_count": 1,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Estate Project",
+   "link_count": 0,
+   "link_to": "Estate Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Settings",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "EstatePro Accounts Settings",
+   "link_count": 0,
+   "link_to": "EstatePro Accounts Settings",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expense Categories",
+   "link_count": 0,
+   "link_to": "Expense Categories",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Plot",
+   "link_count": 0,
+   "link_to": "Plot",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Plot Sizes",
+   "link_count": 0,
+   "link_to": "Plot Size",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Value Addition Item",
+   "link_count": 0,
+   "link_to": "Value Addition Item",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Income",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sell a Plot",
+   "link_count": 0,
+   "link_to": "Plot Sale",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Receive a Payment",
+   "link_count": 0,
+   "link_to": "Receive Payment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Plot Sales Data",
+   "link_count": 0,
+   "link_to": "Plot Sales Data",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Plot Status Report",
+   "link_count": 0,
+   "link_to": "Plot Status Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Profitability Analysis",
+   "link_count": 0,
+   "link_to": "Profitability Analysis",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 1,
+   "label": "Profit and Loss Statement",
+   "link_count": 0,
+   "link_to": "Profit and Loss Statement",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2025-06-27 09:52:03.593295",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "EstatePro",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 28.0,
+ "shortcuts": [
+  {
+   "color": "Cyan",
+   "doc_view": "List",
+   "label": "Plot Sale",
+   "link_to": "Plot Sale",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Blue",
+   "doc_view": "List",
+   "format": "",
+   "label": "Estate Project",
+   "link_to": "Estate Project",
+   "stats_filter": "[[\"Estate Project\",\"docstatus\",\"=\",\"1\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "format": "{} Available",
+   "label": "Plots",
+   "link_to": "Plot",
+   "stats_filter": "[[\"Plot\",\"status\",\"=\",\"Available\",false]]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Project Expense",
+   "link_to": "Project Expense",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "EstatePro"
+}

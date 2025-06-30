@@ -1,0 +1,13 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Client Script",
+  "dt": "Sales Invoice",
+  "enabled": 1,
+  "modified": "2025-03-27 10:40:23.932416",
+  "module": "EstatePro",
+  "name": "Sales Invoice",
+  "script": "frappe.ui.form.on('Sales Invoice', {\n    refresh: function(frm) {\n        frm.fields_dict[\"items\"].grid.get_field(\"item_code\").get_query = function() {\n            return {\n                filters: {\n                    item_group: \"Plots\",\n                    custom_sale_status: \"Unallocated\"\n                }\n            };\n        };\n    },\n\tvalidate: function(frm) {\n        if (!frm.doc.project && !frm.ignore_project_warning) {\n            frappe.confirm(\n                __('The Project field is empty. Do you want to proceed without it?'),\n                function() {\n                    // User confirmed, allow save\n                    frm.ignore_project_warning = true;\n                    frm.save();\n                },\n                function() {\n                    frappe.msgprint(__('Please enter a Project before saving if required.'));\n                }\n            );\n            throw new Error('Validation halted');\n        }\n    }\n});\n\n\nfrappe.ui.form.on(\"Sales Invoice Item\", {\n    rate: function(frm, cdt, cdn) {\n        let row = locals[cdt][cdn];\n\n        // Fetch the valuation rate of the item\n        frappe.call({\n            method: \"frappe.client.get_value\",\n            args: {\n                doctype: \"Item\",\n                filters: { name: row.item_code },\n                fieldname: \"valuation_rate\"\n            },\n            callback: function(response) {\n                if (response.message) {\n                    let valuation_rate = response.message.valuation_rate || 0;\n                    let loss_amount = valuation_rate - row.rate;\n\n                    if (row.rate < valuation_rate) {\n                        frappe.msgprint({\n                            title: __(\"Warning\"),\n                            indicator: \"red\",\n                            message: __(\n                                \"Selling price ({0}) is lower than valuation rate ({1}). <br> This sale is making a loss of {2}.\",\n                                [row.rate, valuation_rate, loss_amount]\n                            )\n                        });\n                    }\n                }\n            }\n        });\n    }\n});\n",
+  "view": "Form"
+ }
+]

@@ -1,0 +1,195 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{project_name}-{####}",
+ "creation": "2025-05-02 14:10:59.569967",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_8hpf",
+  "column_break_wibh",
+  "project_name",
+  "company",
+  "project",
+  "amended_from",
+  "column_break_xxib",
+  "paid_amount",
+  "paying_account",
+  "pay_to",
+  "column_break_ggwn",
+  "posting_time",
+  "set_posting_time",
+  "cost_center"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_8hpf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Make Land Payment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "project_name",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Project Name",
+   "options": "Estate Project",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Paid Amount",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xxib",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "paying_account",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Paying Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"in\",[\"Bank\",\"Cash\",null]],[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"root_type\",\"=\",\"Asset\"]]",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "pay_to",
+   "fieldtype": "Data",
+   "label": "Pay to"
+  },
+  {
+   "fetch_from": "project_name.project",
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_ggwn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "posting_time",
+   "fieldtype": "Date",
+   "label": "Posting Time",
+   "read_only_depends_on": "eval: doc.set_posting_time == 0;",
+   "reqd": 1
+  },
+  {
+   "default": ":Company",
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "column_break_wibh",
+   "fieldtype": "Column Break",
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.docstatus==0",
+   "fieldname": "set_posting_time",
+   "fieldtype": "Check",
+   "label": "Edit Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-06-28 15:21:25.328348",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Make Land Payment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "project_name",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "project_name"
+}

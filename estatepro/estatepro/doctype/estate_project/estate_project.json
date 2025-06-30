@@ -1,0 +1,323 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{project_name}-{YYYY}",
+ "creation": "2025-06-21 19:28:45.189932",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_oofj",
+  "project_name",
+  "payment_status",
+  "company",
+  "total_paid",
+  "balance",
+  "project",
+  "column_break_salj",
+  "purchase_price",
+  "total_project_cost",
+  "gross_sale_value",
+  "difference_amount",
+  "ignore_difference_amount",
+  "allow_installments",
+  "payment_period",
+  "column_break_xtth",
+  "posting_time",
+  "set_posting_time",
+  "down_payment_terms",
+  "set_downpayment_percentage",
+  "down_payment_amount",
+  "location",
+  "value_addition_details_section",
+  "has_no_value_addition",
+  "value_addition",
+  "plot_details_section",
+  "plots_details",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_oofj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "project_name",
+   "fieldtype": "Data",
+   "in_preview": 1,
+   "label": "Project Name",
+   "reqd": 1
+  },
+  {
+   "default": "Pending",
+   "fieldname": "payment_status",
+   "fieldtype": "Select",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Payment Status",
+   "options": "Pending\nPartly Paid\nPaid",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_paid",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Total Paid",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "balance",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_preview": 1,
+   "label": "Balance",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "location",
+   "fieldtype": "Link",
+   "label": "Location",
+   "options": "Location"
+  },
+  {
+   "fieldname": "column_break_salj",
+   "fieldtype": "Column Break",
+   "options": "\nYes\nNo"
+  },
+  {
+   "fieldname": "purchase_price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Purchase Price",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_project_cost",
+   "fieldtype": "Currency",
+   "in_preview": 1,
+   "label": "Total Project Cost",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "gross_sale_value",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Gross Sale Value",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "difference_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Difference Amount",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "ignore_difference_amount",
+   "fieldtype": "Check",
+   "label": "Ignore Difference Amount"
+  },
+  {
+   "fieldname": "allow_installments",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Allow Installments",
+   "options": "\nYes\nNo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "down_payment_terms",
+   "fieldtype": "Select",
+   "label": "Down Payment Terms",
+   "options": "\nPercent\nAmount"
+  },
+  {
+   "fieldname": "down_payment_amount",
+   "fieldtype": "Currency",
+   "label": "Down Payment (Amount) "
+  },
+  {
+   "depends_on": "eval:doc.allow_installments==\"Yes\"\n// eval: doc.allow_installments == \"Yes\" && doc.down_payment_terms == \"Percent\"\n",
+   "fieldname": "set_downpayment_percentage",
+   "fieldtype": "Percent",
+   "label": "Down Payment (%)",
+   "mandatory_depends_on": "// eval:doc.allow_installments==\"Yes\"\n// eval: doc.allow_installments == \"Yes\" && doc.down_payment_terms == \"Percent\"\n"
+  },
+  {
+   "depends_on": "eval:doc.allow_installments==\"Yes\"",
+   "fieldname": "payment_period",
+   "fieldtype": "Int",
+   "label": "Payment Period (Months)"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "value_addition_details_section",
+   "fieldtype": "Section Break",
+   "label": "Value Addition Details"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_no_value_addition",
+   "fieldtype": "Check",
+   "label": "Has no value addition"
+  },
+  {
+   "fieldname": "value_addition",
+   "fieldtype": "Table",
+   "label": "Value Addition",
+   "options": "Value Addition Detail"
+  },
+  {
+   "collapsible": 0,
+   "fieldname": "plot_details_section",
+   "fieldtype": "Section Break",
+   "label": "Plot Details"
+  },
+  {
+   "fieldname": "plots_details",
+   "fieldtype": "Table",
+   "label": "Plots Details",
+   "options": "Plot Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Estate Project",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_xtth",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_time",
+   "fieldtype": "Date",
+   "label": "Posting Time",
+   "read_only_depends_on": "eval: doc.set_posting_time == 0;",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.docstatus==0",
+   "fieldname": "set_posting_time",
+   "fieldtype": "Check",
+   "label": "Edit Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "group": "Reference",
+   "link_doctype": "Plot",
+   "link_fieldname": "project"
+  },
+  {
+   "group": "Payments",
+   "link_doctype": "Make Land Payment",
+   "link_fieldname": "project_name"
+  },
+  {
+   "group": "Reference",
+   "link_doctype": "Project",
+   "link_fieldname": "custom_project_creator_id"
+  },
+  {
+   "group": "Orders",
+   "link_doctype": "Plot Sale",
+   "link_fieldname": "project_creator"
+  },
+  {
+   "group": "Payments",
+   "link_doctype": "Receive Payment",
+   "link_fieldname": "estate_project"
+  }
+ ],
+ "modified": "2025-06-28 19:09:40.076020",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Estate Project",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

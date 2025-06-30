@@ -1,0 +1,52 @@
+{
+ "add_total_row": 1,
+ "add_translate_data": 0,
+ "columns": [],
+ "creation": "2025-03-27 10:55:59.521956",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 9,
+ "is_standard": "Yes",
+ "letterhead": null,
+ "modified": "2025-05-05 14:18:18.278994",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Plot Status Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Plot",
+ "report_name": "Plot Status Report",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "Item Manager"
+  },
+  {
+   "role": "Stock Manager"
+  },
+  {
+   "role": "Stock User"
+  },
+  {
+   "role": "Sales User"
+  },
+  {
+   "role": "Purchase User"
+  },
+  {
+   "role": "Maintenance User"
+  },
+  {
+   "role": "Accounts User"
+  },
+  {
+   "role": "Manufacturing User"
+  },
+  {
+   "role": "Desk User"
+  }
+ ],
+ "timeout": 0
+}

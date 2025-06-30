@@ -1,0 +1,62 @@
+{
+ "cards": [
+  {
+   "card": "Total Plots Sold"
+  },
+  {
+   "card": "Total Amount Collected"
+  },
+  {
+   "card": "Total Outstanding Payments"
+  },
+  {
+   "card": "Gross Profit"
+  }
+ ],
+ "charts": [
+  {
+   "chart": "Buyer Insights Pie Chart",
+   "width": "Half"
+  },
+  {
+   "chart": "Top 5 Buyers by Purchase Volume",
+   "width": "Half"
+  },
+  {
+   "chart": "Expenses Per Project",
+   "width": "Half"
+  },
+  {
+   "chart": "Monthly Expense Trend",
+   "width": "Half"
+  },
+  {
+   "chart": "Monthly Plots Sold",
+   "width": "Half"
+  },
+  {
+   "chart": "Collected VS Outstaning Per Month",
+   "width": "Half"
+  },
+  {
+   "chart": "Plot Status Breakdown",
+   "width": "Half"
+  },
+  {
+   "chart": "Average Plot Price Per Project",
+   "width": "Half"
+  }
+ ],
+ "creation": "2025-05-05 13:52:14.523869",
+ "dashboard_name": "EstatePro Dashboard",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-05-06 09:44:59.668108",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "EstatePro Dashboard",
+ "owner": "Administrator"
+}

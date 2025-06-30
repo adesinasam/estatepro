@@ -1,0 +1,40 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-06-24 14:14:05.800470",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_esqw",
+  "estate_project"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_esqw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "estate_project",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Estate Project",
+   "link_filters": "[[\"Estate Project\",\"docstatus\",\"=\",\"1\"]]",
+   "options": "Estate Project",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-06-28 17:58:36.451777",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Customer Project",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

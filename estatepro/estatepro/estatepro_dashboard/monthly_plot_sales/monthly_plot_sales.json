@@ -1,0 +1,24 @@
+{
+ "cards": [],
+ "charts": [
+  {
+   "width": "Half"
+  },
+  {
+   "chart": "Monthly Plot Sales",
+   "width": "Half"
+  }
+ ],
+ "creation": "2025-05-03 14:23:43.861572",
+ "dashboard_name": "Monthly Plot Sales",
+ "docstatus": 0,
+ "doctype": "Dashboard",
+ "idx": 0,
+ "is_default": 0,
+ "is_standard": 1,
+ "modified": "2025-05-03 14:23:55.967453",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Monthly Plot Sales",
+ "owner": "Administrator"
+}

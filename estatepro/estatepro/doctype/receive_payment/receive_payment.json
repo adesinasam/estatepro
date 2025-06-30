@@ -1,0 +1,357 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "PLT-PAY-.#####",
+ "creation": "2025-05-02 16:04:27.196771",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_4zxw",
+  "amended_from",
+  "plot_sale",
+  "plot",
+  "plot_name",
+  "customer",
+  "plot_size",
+  "valuation",
+  "sale_amount",
+  "company",
+  "project",
+  "column_break_zxfy",
+  "posting_date",
+  "set_posting_time",
+  "paid_amount",
+  "receiving_account",
+  "journal_entry",
+  "cost_center",
+  "estate_project",
+  "more_info_tab",
+  "sales_team_section_break",
+  "sales_partner",
+  "amount_eligible_for_commission",
+  "column_break10",
+  "commission_rate",
+  "total_commission",
+  "section_break2",
+  "sales_team"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_4zxw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Receive Payment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "receiving_account",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Account Paid To",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"account_type\",\"in\",[\"Bank\",\"Cash\"]]]",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "fieldname": "valuation",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Valuation",
+   "non_negative": 1,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_zxfy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Paid Amount",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "plot_sale",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Plot Sale",
+   "link_filters": "[[\"Plot Sale\",\"payment_status\",\"!=\",\"Paid\"],[\"Plot Sale\",\"docstatus\",\"=\",\"1\"]]",
+   "options": "Plot Sale",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "sale_amount",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Sales Amount",
+   "non_negative": 1,
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plot_sale.customer",
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "default": ":Company",
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fieldname": "more_info_tab",
+   "fieldtype": "Tab Break",
+   "label": "More Info"
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "sales_partner",
+   "fieldname": "sales_team_section_break",
+   "fieldtype": "Section Break",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Commission",
+   "oldfieldtype": "Section Break",
+   "options": "fa fa-group",
+   "print_hide": 1
+  },
+  {
+   "fetch_from": "customer.default_sales_partner",
+   "fieldname": "sales_partner",
+   "fieldtype": "Link",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Sales Partner",
+   "oldfieldname": "sales_partner",
+   "oldfieldtype": "Link",
+   "options": "Sales Partner",
+   "print_hide": 1
+  },
+  {
+   "fieldname": "amount_eligible_for_commission",
+   "fieldtype": "Currency",
+   "label": "Amount Eligible for Commission",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break10",
+   "fieldtype": "Column Break",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "oldfieldtype": "Column Break",
+   "print_hide": 1,
+   "width": "50%"
+  },
+  {
+   "fetch_from": "plot_sale.commission_rate",
+   "fetch_if_empty": 1,
+   "fieldname": "commission_rate",
+   "fieldtype": "Float",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Commission Rate (%)",
+   "oldfieldname": "commission_rate",
+   "oldfieldtype": "Currency",
+   "print_hide": 1
+  },
+  {
+   "fieldname": "total_commission",
+   "fieldtype": "Currency",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Total Commission",
+   "oldfieldname": "total_commission",
+   "oldfieldtype": "Currency",
+   "options": "Company:company:default_currency",
+   "print_hide": 1
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "sales_team",
+   "fieldname": "section_break2",
+   "fieldtype": "Section Break",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Sales Team",
+   "print_hide": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "sales_team",
+   "fieldtype": "Table",
+   "hide_days": 1,
+   "hide_seconds": 1,
+   "label": "Sales Contributions and Incentives",
+   "oldfieldname": "sales_team",
+   "oldfieldtype": "Table",
+   "options": "Sales Team",
+   "print_hide": 1
+  },
+  {
+   "fetch_from": "plot_sale.project_creator",
+   "fieldname": "estate_project",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Estate Project",
+   "options": "Estate Project",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "plot_sale.plot_name",
+   "fieldname": "plot",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Plot",
+   "options": "Plot",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plot_sale.plot_size",
+   "fieldname": "plot_size",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Plot Size",
+   "options": "Plot Size"
+  },
+  {
+   "fetch_from": "plot_sale.plot",
+   "fieldname": "plot_name",
+   "fieldtype": "Data",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Plot Name",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "read_only_depends_on": "eval: doc.set_posting_time == 0;",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.docstatus==0",
+   "fieldname": "set_posting_time",
+   "fieldtype": "Check",
+   "label": "Edit Date"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-06-28 15:21:26.535217",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Receive Payment",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "customer,plot_name,plot_sale",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "plot_name"
+}

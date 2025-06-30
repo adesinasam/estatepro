@@ -1,0 +1,130 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-05-02 15:24:09.010767",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "land_purchase_section",
+  "land_inventory_accont",
+  "column_break_oygc",
+  "force_minimum_profit",
+  "minimum_profit_percentage",
+  "plot_sale_section",
+  "cost_of_goods_sold_account",
+  "unearned_revenue_account",
+  "column_break_zzvw",
+  "sales_account",
+  "debtors_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "land_inventory_accont",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Estate Inventory Account",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"root_type\",\"in\",[\"Asset\"]]]",
+   "options": "Account",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "minimum_profit_percentage",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Minimum Profit Percentage",
+   "non_negative": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "force_minimum_profit",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Force Minimum Profit"
+  },
+  {
+   "fieldname": "column_break_oygc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "land_purchase_section",
+   "fieldtype": "Section Break",
+   "label": "Land Purchase"
+  },
+  {
+   "fieldname": "plot_sale_section",
+   "fieldtype": "Section Break",
+   "label": "Plot Sale"
+  },
+  {
+   "fieldname": "cost_of_goods_sold_account",
+   "fieldtype": "Link",
+   "label": "Cost Of Goods Sold Account",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"root_type\",\"in\",[\"Expense\"]],[\"Account\",\"account_type\",\"in\",[\"Cost of Goods Sold\"]]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "column_break_zzvw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_account",
+   "fieldtype": "Link",
+   "label": "Sales Account",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"root_type\",\"in\",[\"Income\"]]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "unearned_revenue_account",
+   "fieldtype": "Link",
+   "label": "Unearned Revenue Account",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"root_type\",\"in\",[\"Liability\"]]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "debtors_account",
+   "fieldtype": "Link",
+   "label": "Debtors Account",
+   "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"account_type\",\"in\",[\"Receivable\"]]]",
+   "options": "Account"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2025-06-25 08:50:38.361790",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "EstatePro Accounts Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Account Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
