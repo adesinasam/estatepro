@@ -1,6 +1,6 @@
 {
  "actions": [],
- "autoname": "SPRS-LE-.YY.-.#####",
+ "autoname": "EPR-LE-.YY.-.#####",
  "creation": "2025-06-25 12:37:17.561741",
  "doctype": "DocType",
  "document_type": "Document",
@@ -322,7 +322,7 @@
  "icon": "fa fa-list",
  "in_create": 1,
  "links": [],
- "modified": "2025-06-25 13:19:31.179730",
+ "modified": "2025-07-10 06:10:12.627384",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Realtor GL Entry",
@@ -353,6 +353,7 @@
   }
  ],
  "quick_entry": 1,
+ "row_format": "Dynamic",
  "search_fields": "voucher_no,sales_person,posting_date,against_voucher",
  "sort_field": "creation",
  "sort_order": "DESC",

@@ -36,8 +36,8 @@ def revert_item_status_on_cancel(doc, method):
 #     plot = frappe.get_doc("Plot", doc.plot_name)
 
 #     if not plot.project:
-#         frappe.throw("Plot not linked to Land Project.")
-#     project = frappe.get_doc("Land Project", plot.project)
+#         frappe.throw("Plot not linked to Estate Project.")
+#     project = frappe.get_doc("Estate Project", plot.project)
 
 #     default_amt = (
 #         doc.sale_amount * float(project.set_downpayment_percentage or 0) / 100
@@ -72,9 +72,9 @@ def get_receive_payment_defaults(plot_sale_name):
     plot = frappe.get_doc("Plot", doc.plot_name)
 
     if not plot.project:
-        frappe.throw("Plot not linked to Land Project.")
+        frappe.throw("Plot not linked to Estate Project.")
 
-    project = frappe.get_doc("Land Project", plot.project)
+    project = frappe.get_doc("Estate Project", plot.project)
 
     if project.allow_installments == "Yes":
         if project.down_payment_terms == "Amount":

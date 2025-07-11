@@ -36,14 +36,6 @@ class PlotSale(Document):
                     f"(Minimum acceptable: {min_sale_price:,.2f}) because 'Force Minimum Profit' is enabled in settings."
                 )
 
-    # def calculate_incentives(self):
-    #     if not self.sale_amount or not self.sales_team:
-    #         return
-        
-    #     for row in self.sales_team:
-    #         row.allocated_amount = (row.allocated_percentage / 100) * self.sale_amount
-    #         row.incentives = (row.allocated_percentage / 100) * self.sale_amount
-
     def before_save(self):
         self.set_payment_plan_from_project()
 
@@ -93,8 +85,9 @@ class PlotSale(Document):
         je.voucher_type = "Journal Entry"
         je.remark = f"Initial sale recorded for plot {plot.plot_name}"
         je.project = self.project
-        je.custom_estatepro_doctype = "Plot Sale"
-        je.custom_estatepro_reference = self.name
+        je.title = self.name
+        # je.custom_estatepro_doctype = "Plot Sale"
+        # je.custom_estatepro_reference = self.name
 
         je.append("accounts", {
             "account": debtors_account,
@@ -114,7 +107,6 @@ class PlotSale(Document):
 
         je.save()
         je.submit()
-
         self.db_set("sales_journal_entry", je.name)
 
         # Update land bin
@@ -190,6 +182,45 @@ class PlotSale(Document):
             sched.save()
             frappe.msgprint(f"Payment schedule created: {sched.name}")
 
+    def on_cancel(self):
+        # Revert plot status to Available
+        frappe.db.set_value("Plot", self.plot_name, "status", "Available")
+
+        # Cancel and delete linked Journal Entry
+        if self.sales_journal_entry:
+            je = frappe.get_doc("Journal Entry", self.sales_journal_entry)
+            if je.docstatus == 1:
+                je.cancel()
+            self.db_set("sales_journal_entry", "")
+
+        # Update land bin quantities
+        land_bin_name = frappe.db.get_value(
+            "Land Bin",
+            filters={
+                'estate_project': self.project_creator, 
+                'plot_size': self.plot_size
+            },
+            fieldname='name'
+        )
+
+        if land_bin_name:
+            land_bin = frappe.get_doc("Land Bin", land_bin_name)
+            ordered_qty = (land_bin.ordered_qty or 0) - 1
+            actual_qty = (land_bin.actual_qty or 0) + 1
+            stock_value = land_bin.valuation_rate * actual_qty
+
+            frappe.db.set_value("Land Bin", land_bin_name, {
+                "ordered_qty": ordered_qty,
+                "actual_qty": actual_qty,
+                "stock_value": stock_value
+            })
+
+        # Delete payment schedule if exists
+        payment_schedule = frappe.db.get_value("Plot Payment Schedule", {"plot_sale": self.name})
+        if payment_schedule:
+            frappe.delete_doc("Plot Payment Schedule", payment_schedule)
+
+        frappe.msgprint(f"Plot Sale {self.name} has been cancelled successfully")
 
 @frappe.whitelist()
 def get_payment_schedule(plot_sale):

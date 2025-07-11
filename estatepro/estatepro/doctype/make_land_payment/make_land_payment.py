@@ -36,6 +36,9 @@ class MakeLandPayment(Document):
         je.company = frappe.defaults.get_user_default("Company")
         je.remark = f"Purchase of the project {self.project_name}"
         je.voucher_type = "Journal Entry"
+        je.title = self.name
+        # je.custom_estatepro_doctype = "Make Land Payment"
+        # je.custom_estatepro_reference = self.name
 
         je.append("accounts", {
             "account": land_inventory_accont,
@@ -53,6 +56,7 @@ class MakeLandPayment(Document):
 
         je.save()
         je.submit()
+        self.db_set("payment_journal", je.name)
 
         new_total_paid = (project.total_paid or 0) + self.paid_amount
         new_balance = project.total_project_cost - new_total_paid
@@ -64,3 +68,72 @@ class MakeLandPayment(Document):
             project.db_set("payment_status", "Paid")
         else:
             project.db_set("payment_status", "Partly Paid")
+
+    # def on_cancel(self):
+    #     # Get the linked Journal Entry
+    #     je = frappe.get_all("Journal Entry",
+    #         filters={
+    #             "custom_estatepro_doctype": "Make Land Payment",
+    #             "custom_estatepro_reference": self.name,
+    #             "docstatus": 1
+    #         },
+    #         limit=1
+    #     )
+
+    #     if je:
+    #         je_doc = frappe.get_doc("Journal Entry", je[0].name)
+    #         je_doc.cancel()
+
+    #     # Update the project's payment details
+    #     project = frappe.get_doc("Estate Project", self.project_name)
+    #     new_total_paid = (project.total_paid or 0) - self.paid_amount
+
+    #     # Ensure we don't go negative
+    #     if new_total_paid < 0:
+    #         new_total_paid = 0
+
+    #     new_balance = project.total_project_cost - new_total_paid
+
+    #     project.db_set("total_paid", new_total_paid)
+    #     project.db_set("balance", new_balance)
+
+    #     # Update payment status
+    #     if new_total_paid == 0:
+    #         project.db_set("payment_status", "Unpaid")
+    #     elif new_total_paid >= project.total_project_cost:
+    #         project.db_set("payment_status", "Paid")
+    #     else:
+    #         project.db_set("payment_status", "Partly Paid")
+
+    def on_cancel(self):
+        # Get the linked Journal Entry
+        if not self.payment_journal:
+            frappe.throw("No Journal Entry linked to this document to cancel.")
+
+        je = frappe.get_doc("Journal Entry", self.payment_journal)
+
+        # Check if Journal Entry is already cancelled
+        if je.docstatus == 2:
+            frappe.throw("The linked Journal Entry is already cancelled.")
+
+        # Cancel the Journal Entry first
+        je.cancel()
+
+        # Update the Estate Project document
+        project = frappe.get_doc("Estate Project", self.project_name)
+        new_total_paid = (project.total_paid or 0) - self.paid_amount
+        new_balance = project.total_project_cost - new_total_paid
+
+        project.db_set("total_paid", new_total_paid)
+        project.db_set("balance", new_balance)
+
+        # Update payment status
+        if new_total_paid == 0:
+            project.db_set("payment_status", "Unpaid")
+        elif new_total_paid >= project.total_project_cost:
+            project.db_set("payment_status", "Paid")
+        else:
+            project.db_set("payment_status", "Partly Paid")
+
+        # Clear the reference to the Journal Entry
+        self.db_set("payment_journal", "")

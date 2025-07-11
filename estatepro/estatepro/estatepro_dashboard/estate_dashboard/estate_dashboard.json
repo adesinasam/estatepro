@@ -48,7 +48,7 @@
   }
  ],
  "creation": "2025-05-05 13:52:14.523869",
- "dashboard_name": "EstatePro Dashboard",
+ "dashboard_name": "Estate Dashboard",
  "docstatus": 0,
  "doctype": "Dashboard",
  "idx": 0,
@@ -57,6 +57,6 @@
  "modified": "2025-05-06 09:44:59.668108",
  "modified_by": "Administrator",
  "module": "EstatePro",
- "name": "EstatePro Dashboard",
+ "name": "Estate Dashboard",
  "owner": "Administrator"
 }

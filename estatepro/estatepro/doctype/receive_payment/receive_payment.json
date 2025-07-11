@@ -63,6 +63,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": "plot_sale.valuation",
    "fieldname": "valuation",
    "fieldtype": "Currency",
    "in_filter": 1,
@@ -101,6 +102,7 @@
    "search_index": 1
   },
   {
+   "fetch_from": "plot_sale.sale_amount",
    "fieldname": "sale_amount",
    "fieldtype": "Currency",
    "in_filter": 1,
@@ -128,6 +130,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "plot_sale.project",
    "fieldname": "project",
    "fieldtype": "Link",
    "hidden": 1,
@@ -145,6 +148,7 @@
   },
   {
    "default": ":Company",
+   "fetch_from": "plot_sale.cost_center",
    "fieldname": "cost_center",
    "fieldtype": "Link",
    "label": "Cost Center",
@@ -304,7 +308,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-06-28 15:21:26.535217",
+ "modified": "2025-07-10 05:51:29.721464",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Receive Payment",
@@ -349,6 +353,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "search_fields": "customer,plot_name,plot_sale",
  "sort_field": "modified",
  "sort_order": "DESC",

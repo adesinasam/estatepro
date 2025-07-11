@@ -86,7 +86,6 @@ frappe.ui.form.on('Receive Payment', {
                         var new_row = frm.add_child("sales_team");
                         new_row.sales_person = row.sales_person;
                         new_row.allocated_percentage = row.allocated_percentage;
-                        new_row.commission_rate = row.allocated_percentage;
                         // Calculate incentives if paid_amount exists
                         if (frm.doc.paid_amount) {
                             new_row.incentives = (row.allocated_percentage / 100) * frm.doc.paid_amount;

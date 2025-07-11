@@ -17,9 +17,10 @@
   "paying_account",
   "pay_to",
   "column_break_ggwn",
-  "posting_time",
+  "posting_date",
   "set_posting_time",
-  "cost_center"
+  "cost_center",
+  "payment_journal"
  ],
  "fields": [
   {
@@ -108,13 +109,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "posting_time",
-   "fieldtype": "Date",
-   "label": "Posting Time",
-   "read_only_depends_on": "eval: doc.set_posting_time == 0;",
-   "reqd": 1
-  },
-  {
    "default": ":Company",
    "fieldname": "cost_center",
    "fieldtype": "Link",
@@ -132,13 +126,28 @@
    "fieldname": "set_posting_time",
    "fieldtype": "Check",
    "label": "Edit Date"
+  },
+  {
+   "fieldname": "payment_journal",
+   "fieldtype": "Link",
+   "label": "Payment Journal",
+   "options": "Journal Entry",
+   "read_only": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "read_only_depends_on": "eval: doc.set_posting_time == 0;",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-06-28 15:21:25.328348",
+ "modified": "2025-07-10 10:39:09.975145",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Make Land Payment",
@@ -187,6 +196,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "search_fields": "project_name",
  "sort_field": "modified",
  "sort_order": "DESC",

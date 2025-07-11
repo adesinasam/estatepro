@@ -153,7 +153,6 @@ frappe.ui.form.on('Plot Sale', {
                         var new_row = frm.add_child("sales_team");
                         new_row.sales_person = row.sales_person;
                         new_row.allocated_percentage = row.allocated_percentage;
-                        new_row.commission_rate = row.allocated_percentage;
                         // Calculate incentives if sale_amount exists
                         if (frm.doc.sale_amount) {
                             new_row.incentives = (row.allocated_percentage / 100) * frm.doc.sale_amount;

@@ -244,5 +244,6 @@ required_apps = ["erpnext"]
 
 fixtures = [
     "Custom Field",
+    "Property Setter",
 	"Print Format"
 ]
