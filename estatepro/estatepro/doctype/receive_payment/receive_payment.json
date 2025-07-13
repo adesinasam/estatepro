@@ -21,6 +21,7 @@
   "posting_date",
   "set_posting_time",
   "paid_amount",
+  "is_bulk_plot_payment",
   "receiving_account",
   "journal_entry",
   "cost_center",
@@ -302,13 +303,20 @@
    "fieldname": "set_posting_time",
    "fieldtype": "Check",
    "label": "Edit Date"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_bulk_plot_payment",
+   "fieldtype": "Check",
+   "label": "Is Bulk Plot Payment",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-10 05:51:29.721464",
+ "modified": "2025-07-12 18:23:22.920749",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Receive Payment",

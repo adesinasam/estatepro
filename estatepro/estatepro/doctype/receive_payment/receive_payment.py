@@ -40,23 +40,24 @@ class ReceivePayment(Document):
         # je.custom_estatepro_doctype = "Receive Payment"
         # je.custom_estatepro_reference = self.name
 
-        # 1. Debit Bank
-        je.append("accounts", {
-            "account": self.receiving_account,
-            "debit_in_account_currency": self.paid_amount,
-            "project": self.project,
-            "cost_center": self.cost_center            
-        })
+        if self.is_bulk_plot_payment == 0:
+            # 1. Debit Bank
+            je.append("accounts", {
+                "account": self.receiving_account,
+                "debit_in_account_currency": self.paid_amount,
+                "project": self.project,
+                "cost_center": self.cost_center            
+            })
 
-        # 2. Credit Debtors
-        je.append("accounts", {
-            "account": debtors_account,
-            "party_type": "Customer",
-            "party": sale.customer,
-            "credit_in_account_currency": self.paid_amount,
-            "project": self.project,
-            "cost_center": self.cost_center            
-        })
+            # 2. Credit Debtors
+            je.append("accounts", {
+                "account": debtors_account,
+                "party_type": "Customer",
+                "party": sale.customer,
+                "credit_in_account_currency": self.paid_amount,
+                "project": self.project,
+                "cost_center": self.cost_center            
+            })
 
         # 3. Debit Unearned Revenue
         je.append("accounts", {

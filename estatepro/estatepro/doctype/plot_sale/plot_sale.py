@@ -16,7 +16,8 @@ class PlotSale(Document):
         self.balance = self.sale_amount
         self.project = frappe.db.get_value("Estate Project", self.project_creator, "project")
 
-        # self.calculate_incentives()
+        self.update_sales_team_from_customer()
+        self.calculate_incentives()
 
         if not self.company:
             self.company = frappe.defaults.get_user_default("Company")
@@ -181,6 +182,31 @@ class PlotSale(Document):
 
             sched.save()
             frappe.msgprint(f"Payment schedule created: {sched.name}")
+
+    def update_sales_team_from_customer(self):
+        if not self.customer:
+            self.sales_team = []
+            return
+        
+        customer = frappe.get_doc("Customer", self.customer)
+        if not customer.sales_team:
+            return
+        
+        self.set("sales_team", [])
+        for row in customer.sales_team:
+            self.append("sales_team", {
+                "sales_person": row.sales_person,
+                "allocated_percentage": row.allocated_percentage,
+                "commission_rate": row.commission_rate,
+                "incentives": (row.allocated_percentage / 100) * self.sale_amount if self.sale_amount else 0
+            })
+    
+    def calculate_incentives(self):
+        if not self.sale_amount or not self.sales_team:
+            return
+        
+        for row in self.sales_team:
+            row.incentives = (row.allocated_percentage / 100) * self.sale_amount
 
     def on_cancel(self):
         # Revert plot status to Available
