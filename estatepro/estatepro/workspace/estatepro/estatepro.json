@@ -74,35 +74,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Income",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Sell a Plot",
-   "link_count": 0,
-   "link_to": "Plot Sale",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Receive a Payment",
-   "link_count": 0,
-   "link_to": "Receive Payment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Reports",
    "link_count": 4,
    "link_type": "DocType",
@@ -237,9 +208,48 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Income",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Sell a Plot",
+   "link_count": 0,
+   "link_to": "Plot",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Receive a Payment",
+   "link_count": 0,
+   "link_to": "Plot Sale",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Bulk Plot Sale",
+   "link_count": 0,
+   "link_to": "Bulk Plot Sale",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-06-30 12:49:34.203642",
+ "modified": "2025-07-12 17:40:54.384651",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "EstatePro",
@@ -265,11 +275,12 @@
  "sequence_id": 28.0,
  "shortcuts": [
   {
-   "color": "Cyan",
+   "color": "Blue",
    "doc_view": "List",
-   "label": "Plot Sale",
-   "link_to": "Plot Sale",
-   "stats_filter": "[]",
+   "format": "",
+   "label": "Estate Project",
+   "link_to": "Estate Project",
+   "stats_filter": "[[\"Estate Project\",\"docstatus\",\"=\",\"1\",false]]",
    "type": "DocType"
   },
   {
@@ -281,12 +292,11 @@
    "type": "DocType"
   },
   {
-   "color": "Blue",
+   "color": "Cyan",
    "doc_view": "List",
-   "format": "",
-   "label": "Estate Project",
-   "link_to": "Estate Project",
-   "stats_filter": "[[\"Estate Project\",\"docstatus\",\"=\",\"1\",false]]",
+   "label": "Plot Sale",
+   "link_to": "Plot Sale",
+   "stats_filter": "[[\"Plot Sale\",\"docstatus\",\"=\",\"1\",false]]",
    "type": "DocType"
   },
   {
