@@ -154,8 +154,8 @@ class EstateProject(Document):
                 landbin.valuation_rate = float(valuation)
                 landbin.stock_value = float(count * valuation)
 
-                landbin.insert()
-                frappe.db.commit()
+                landbin.insert(ignore_permissions=True)
+                frappe.db.commit(ignore_permissions=True)
 
             except Exception as e:
                 frappe.log_error(frappe.get_traceback(), f"Failed to create plot {plot_id}")
