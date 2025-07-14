@@ -1,0 +1,194 @@
+{
+ "actions": [],
+ "creation": "2025-07-12 18:35:01.007418",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_4zxw",
+  "plot_sale",
+  "plot",
+  "plot_name",
+  "plot_size",
+  "valuation",
+  "sale_amount",
+  "outstanding",
+  "column_break_zxfy",
+  "paid_amount",
+  "is_bulk_plot_payment",
+  "cost_center",
+  "project",
+  "estate_project",
+  "receive_payment",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_4zxw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "columns": 3,
+   "fieldname": "plot_sale",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Plot Sale",
+   "options": "Plot Sale",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "plot_sale.plot_name",
+   "fieldname": "plot",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Plot",
+   "options": "Plot",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plot_sale.plot",
+   "fieldname": "plot_name",
+   "fieldtype": "Data",
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Plot Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plot_sale.plot_size",
+   "fieldname": "plot_size",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Plot Size",
+   "options": "Plot Size",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plot_sale.valuation",
+   "fieldname": "valuation",
+   "fieldtype": "Currency",
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Valuation",
+   "non_negative": 1,
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "plot_sale.sale_amount",
+   "fieldname": "sale_amount",
+   "fieldtype": "Currency",
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Sales Amount",
+   "non_negative": 1,
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "plot_sale.project",
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_zxfy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 2,
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Paid Amount",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "is_bulk_plot_payment",
+   "fieldtype": "Check",
+   "label": "Is Bulk Plot Payment",
+   "read_only": 1
+  },
+  {
+   "default": ":Company",
+   "fetch_from": "plot_sale.cost_center",
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Cost Center",
+   "options": "Cost Center"
+  },
+  {
+   "fetch_from": "plot_sale.project_creator",
+   "fieldname": "estate_project",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Estate Project",
+   "options": "Estate Project",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "receive_payment",
+   "fieldtype": "Link",
+   "label": "Receive Payment",
+   "options": "Receive Payment",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "columns": 2,
+   "fetch_from": "plot_sale.balance",
+   "fieldname": "outstanding",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Outstanding",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Plot Payment Items",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-07-14 10:56:01.172878",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Plot Payment Items",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

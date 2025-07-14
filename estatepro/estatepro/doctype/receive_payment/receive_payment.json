@@ -7,7 +7,6 @@
  "engine": "InnoDB",
  "field_order": [
   "section_break_4zxw",
-  "amended_from",
   "plot_sale",
   "plot",
   "plot_name",
@@ -15,8 +14,8 @@
   "plot_size",
   "valuation",
   "sale_amount",
+  "outstanding",
   "company",
-  "project",
   "column_break_zxfy",
   "posting_date",
   "set_posting_time",
@@ -26,6 +25,11 @@
   "journal_entry",
   "cost_center",
   "estate_project",
+  "project",
+  "amended_from",
+  "section_break_ygfa",
+  "remarks",
+  "column_break_ndkf",
   "more_info_tab",
   "sales_team_section_break",
   "sales_partner",
@@ -72,6 +76,7 @@
    "in_preview": 1,
    "label": "Valuation",
    "non_negative": 1,
+   "permlevel": 1,
    "read_only": 1,
    "reqd": 1
   },
@@ -310,13 +315,36 @@
    "fieldtype": "Check",
    "label": "Is Bulk Plot Payment",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_ygfa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ndkf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fetch_from": "plot_sale.balance",
+   "fieldname": "outstanding",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Outstanding",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-12 18:23:22.920749",
+ "modified": "2025-07-14 10:50:42.247742",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Receive Payment",
@@ -359,6 +387,16 @@
    "role": "Accounts User",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Accounts Manager",
+   "share": 1
   }
  ],
  "row_format": "Dynamic",

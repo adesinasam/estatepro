@@ -59,6 +59,10 @@ frappe.ui.form.on('Plot Sale Items', {
         calculate_totals(frm);
     },
 
+    plots_remove: function(frm, cdt, cdn){
+        calculate_totals(frm);
+    },
+
     sale_amount: function(frm, cdt, cdn) {
         calculate_totals(frm);
     }

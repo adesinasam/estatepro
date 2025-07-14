@@ -16,25 +16,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Purchases",
-   "link_count": 1,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Estate Project",
-   "link_count": 0,
-   "link_to": "Estate Project",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Masters",
    "link_count": 3,
    "link_type": "DocType",
@@ -212,8 +193,37 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Purchases",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Estate Project",
+   "link_count": 0,
+   "link_to": "Estate Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Make Land Payment",
+   "link_count": 0,
+   "link_to": "Make Land Payment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Income",
-   "link_count": 3,
+   "link_count": 4,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -233,7 +243,7 @@
    "is_query_report": 0,
    "label": "Receive a Payment",
    "link_count": 0,
-   "link_to": "Plot Sale",
+   "link_to": "Receive Payment",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -247,9 +257,19 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Plot Payment Entry",
+   "link_count": 0,
+   "link_to": "Plot Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-07-12 17:40:54.384651",
+ "modified": "2025-07-14 12:02:01.849133",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "EstatePro",
