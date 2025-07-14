@@ -13,20 +13,20 @@
   "total_paid",
   "balance",
   "project",
+  "column_break_xtth",
+  "posting_time",
+  "set_posting_time",
+  "allow_installments",
+  "payment_period",
+  "down_payment_terms",
+  "set_downpayment_percentage",
+  "down_payment_amount",
   "column_break_salj",
   "purchase_price",
   "total_project_cost",
   "gross_sale_value",
   "difference_amount",
   "ignore_difference_amount",
-  "allow_installments",
-  "payment_period",
-  "column_break_xtth",
-  "posting_time",
-  "set_posting_time",
-  "down_payment_terms",
-  "set_downpayment_percentage",
-  "down_payment_amount",
   "location",
   "value_addition_details_section",
   "has_no_value_addition",
@@ -196,7 +196,6 @@
    "options": "Value Addition Detail"
   },
   {
-   "collapsible": 0,
    "fieldname": "plot_details_section",
    "fieldtype": "Section Break",
    "label": "Plot Details"
@@ -226,7 +225,7 @@
    "fieldname": "posting_time",
    "fieldtype": "Date",
    "label": "Posting Time",
-   "read_only_depends_on": "eval: doc.set_posting_time == 0;",
+   "read_only_depends_on": "eval:doc.set_posting_time == 0;",
    "reqd": 1
   },
   {
@@ -267,7 +266,7 @@
    "link_fieldname": "estate_project"
   }
  ],
- "modified": "2025-06-28 19:09:40.076020",
+ "modified": "2025-07-02 11:16:05.621373",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Estate Project",
