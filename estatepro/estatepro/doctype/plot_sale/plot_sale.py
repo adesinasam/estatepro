@@ -137,7 +137,7 @@ class PlotSale(Document):
             "ordered_qty": ordered_qty,
             "actual_qty": actual_qty,
             "stock_value": stock_value
-        })
+        }, ignore_permissions=True)
 
         # Generate payment schedule
         project = frappe.get_doc("Estate Project", self.project_creator)
@@ -239,7 +239,7 @@ class PlotSale(Document):
                 "ordered_qty": ordered_qty,
                 "actual_qty": actual_qty,
                 "stock_value": stock_value
-            })
+            }, ignore_permissions=True)
 
         # Delete payment schedule if exists
         payment_schedule = frappe.db.get_value("Plot Payment Schedule", {"plot_sale": self.name})
