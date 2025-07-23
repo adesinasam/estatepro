@@ -99,13 +99,12 @@ class ReceivePayment(Document):
         total_paid = flt(sale.total_paid or 0) + flt(self.paid_amount)
         new_balance = flt(sale.sale_amount) - flt(total_paid)
 
-        frappe.logger().debug(f"Updating Plot Sales {sale.name}: total_paid={total_paid}, new_balance={new_balance}")
-
         frappe.db.set_value("Plot Sales", sale.name, {
             "total_paid": total_paid,
             "balance": new_balance,
             "payment_status": "Paid" if new_balance <= 0 else "Partly Paid"
             })
+        frappe.db.commit()
         # frappe.db.set_value("Plot Sales", sale.name, "total_paid", total_paid)
         # frappe.db.set_value("Plot Sales", sale.name, "balance", new_balance)
         # frappe.db.set_value("Plot Sales", sale.name, "payment_status",
@@ -257,6 +256,7 @@ class ReceivePayment(Document):
             "balance": new_balance,
             "payment_status": "Paid" if new_balance <= 0 else "Partly Paid"
             })
+        frappe.db.commit()
         # frappe.db.set_value("Plot Sales", sale.name, "total_paid", total_paid)
         # frappe.db.set_value("Plot Sales", sale.name, "balance", new_balance)
         # frappe.db.set_value("Plot Sales", sale.name, "payment_status",
