@@ -8,11 +8,12 @@
  "field_order": [
   "section_break_oofj",
   "project_name",
-  "payment_status",
   "company",
+  "project_status",
+  "is_active",
+  "payment_status",
   "total_paid",
   "balance",
-  "project",
   "column_break_xtth",
   "posting_time",
   "set_posting_time",
@@ -22,12 +23,24 @@
   "set_downpayment_percentage",
   "down_payment_amount",
   "column_break_salj",
+  "supplier",
   "purchase_price",
-  "total_project_cost",
   "gross_sale_value",
   "difference_amount",
   "ignore_difference_amount",
+  "project",
+  "cost_center",
   "location",
+  "project_details",
+  "estimated_cost",
+  "total_project_cost",
+  "total_costing_amount_expenses_in_valuation",
+  "total_purchase_invoice_cost",
+  "column_break_rgut",
+  "total_sales_amount_via_plot_sales",
+  "total_billed_amount_via_sales_invoice",
+  "total_billed_amount_via_plot_payment_entry",
+  "journal_entry",
   "value_addition_details_section",
   "has_no_value_addition",
   "value_addition",
@@ -90,6 +103,7 @@
   {
    "fieldname": "project",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Project",
    "options": "Project",
    "read_only": 1
@@ -116,10 +130,11 @@
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "total_project_cost",
    "fieldtype": "Currency",
    "in_preview": 1,
-   "label": "Total Project Cost",
+   "label": "Total Purchase Cost (via Estate Project)",
    "non_negative": 1,
    "read_only": 1
   },
@@ -127,7 +142,7 @@
    "fieldname": "gross_sale_value",
    "fieldtype": "Currency",
    "in_list_view": 1,
-   "label": "Gross Sale Value",
+   "label": "Gross Plot Details Value",
    "non_negative": 1,
    "read_only": 1
   },
@@ -181,10 +196,12 @@
    "collapsible": 1,
    "fieldname": "value_addition_details_section",
    "fieldtype": "Section Break",
-   "label": "Value Addition Details"
+   "hidden": 1,
+   "label": "Value Addition Details",
+   "read_only": 1
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "has_no_value_addition",
    "fieldtype": "Check",
    "label": "Has no value addition"
@@ -224,7 +241,7 @@
    "default": "Today",
    "fieldname": "posting_time",
    "fieldtype": "Date",
-   "label": "Posting Time",
+   "label": "Posting Date",
    "read_only_depends_on": "eval:doc.set_posting_time == 0;",
    "reqd": 1
   },
@@ -234,6 +251,93 @@
    "fieldname": "set_posting_time",
    "fieldtype": "Check",
    "label": "Edit Date"
+  },
+  {
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.docstatus===1",
+   "fieldname": "project_details",
+   "fieldtype": "Section Break",
+   "label": "Costing and Billing"
+  },
+  {
+   "fieldname": "column_break_rgut",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "estimated_cost",
+   "fieldtype": "Currency",
+   "label": "Estimated Cost"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_costing_amount_expenses_in_valuation",
+   "fieldtype": "Currency",
+   "label": "Total Costing Amount (via Project Expense)",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_sales_amount_via_plot_sales",
+   "fieldtype": "Currency",
+   "label": "Total Sales Amount (via Plot Sales)",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_billed_amount_via_sales_invoice",
+   "fieldtype": "Currency",
+   "label": "Total Billed Amount (via Sales Invoice)",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "total_billed_amount_via_plot_payment_entry",
+   "fieldtype": "Currency",
+   "label": "Total Billed Amount (via Plot Payment Entry)",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": ":Company",
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center",
+   "search_index": 1
+  },
+  {
+   "fieldname": "total_purchase_invoice_cost",
+   "fieldtype": "Currency",
+   "label": "Total Purchase Cost (via Purchase Invoice)"
+  },
+  {
+   "fieldname": "project_status",
+   "fieldtype": "Select",
+   "label": "Project Status",
+   "options": "Open\nCompleted\nCancelled"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "is_active",
+   "fieldtype": "Select",
+   "label": "Is Active",
+   "options": "Yes\nNo"
   }
  ],
  "grid_page_length": 50,
@@ -257,8 +361,8 @@
   },
   {
    "group": "Orders",
-   "link_doctype": "Plot Sale",
-   "link_fieldname": "project_creator"
+   "link_doctype": "Plot Sales",
+   "link_fieldname": "estate_project"
   },
   {
    "group": "Payments",
@@ -266,7 +370,7 @@
    "link_fieldname": "estate_project"
   }
  ],
- "modified": "2025-07-02 11:16:05.621373",
+ "modified": "2025-07-21 21:20:18.157205",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Estate Project",
@@ -316,6 +420,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

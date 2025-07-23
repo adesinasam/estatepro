@@ -8,24 +8,24 @@
  "field_order": [
   "section_break_4zxw",
   "plot_sale",
-  "plot",
-  "plot_name",
   "customer",
-  "plot_size",
+  "estate_project",
+  "company",
   "valuation",
   "sale_amount",
   "outstanding",
-  "company",
+  "plot",
+  "plot_name",
+  "plot_size",
   "column_break_zxfy",
   "posting_date",
   "set_posting_time",
   "paid_amount",
   "is_bulk_plot_payment",
   "receiving_account",
-  "journal_entry",
   "cost_center",
-  "estate_project",
   "project",
+  "journal_entry",
   "amended_from",
   "section_break_ygfa",
   "remarks",
@@ -68,7 +68,7 @@
    "reqd": 1
   },
   {
-   "fetch_from": "plot_sale.valuation",
+   "fetch_from": "plot_sale.total_valuation",
    "fieldname": "valuation",
    "fieldtype": "Currency",
    "in_filter": 1,
@@ -102,8 +102,8 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Plot Sale",
-   "link_filters": "[[\"Plot Sale\",\"payment_status\",\"!=\",\"Paid\"],[\"Plot Sale\",\"docstatus\",\"=\",\"1\"]]",
-   "options": "Plot Sale",
+   "link_filters": "[[\"Plot Sales\",\"payment_status\",\"!=\",\"Paid\"],[\"Plot Sales\",\"docstatus\",\"=\",\"1\"]]",
+   "options": "Plot Sales",
    "reqd": 1,
    "search_index": 1
   },
@@ -121,6 +121,7 @@
    "search_index": 1
   },
   {
+   "fetch_from": "plot_sale.company",
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
@@ -130,7 +131,6 @@
   {
    "fieldname": "journal_entry",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Journal Entry",
    "options": "Journal Entry",
    "read_only": 1
@@ -139,7 +139,6 @@
    "fetch_from": "plot_sale.project",
    "fieldname": "project",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Project",
    "options": "Project",
    "read_only": 1
@@ -250,7 +249,7 @@
    "print_hide": 1
   },
   {
-   "fetch_from": "plot_sale.project_creator",
+   "fetch_from": "plot_sale.estate_project",
    "fieldname": "estate_project",
    "fieldtype": "Link",
    "in_filter": 1,
@@ -263,20 +262,13 @@
    "search_index": 1
   },
   {
-   "fetch_from": "plot_sale.plot_name",
    "fieldname": "plot",
    "fieldtype": "Link",
    "hidden": 1,
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_preview": 1,
-   "in_standard_filter": 1,
    "label": "Plot",
-   "options": "Plot",
-   "read_only": 1
+   "options": "Plot"
   },
   {
-   "fetch_from": "plot_sale.plot_size",
    "fieldname": "plot_size",
    "fieldtype": "Link",
    "hidden": 1,
@@ -284,13 +276,9 @@
    "options": "Plot Size"
   },
   {
-   "fetch_from": "plot_sale.plot",
    "fieldname": "plot_name",
    "fieldtype": "Data",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_preview": 1,
-   "in_standard_filter": 1,
+   "hidden": 1,
    "label": "Plot Name",
    "read_only": 1
   },
@@ -313,7 +301,7 @@
    "default": "0",
    "fieldname": "is_bulk_plot_payment",
    "fieldtype": "Check",
-   "label": "Is Bulk Plot Payment",
+   "label": "Is Bulk Sales Payment",
    "read_only": 1
   },
   {
@@ -344,7 +332,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-14 10:50:42.247742",
+ "modified": "2025-07-22 08:18:24.961646",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Receive Payment",
@@ -400,9 +388,9 @@
   }
  ],
  "row_format": "Dynamic",
- "search_fields": "customer,plot_name,plot_sale",
+ "search_fields": "customer,estate_project,plot_sale",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "plot_name"
+ "title_field": "customer"
 }

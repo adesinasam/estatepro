@@ -34,6 +34,22 @@ class EstateProject(Document):
 
     
     def before_submit(self):
+        settings = frappe.get_single("EstatePro Accounts Settings")
+        creditors_account = settings.creditors_account
+        land_inventory_accont = settings.land_inventory_accont
+
+        if not creditors_account:
+            frappe.throw("Estate Inventory Account is not configured in EstatePro Accounts Settings.")
+        
+        if not land_inventory_accont:
+            frappe.throw("Estate Inventory Account is not configured in EstatePro Accounts Settings.")
+        
+        if not frappe.db.exists("Account", creditors_account):
+            frappe.throw(f"Account '{creditors_account}' does not exist.")
+        
+        if not frappe.db.exists("Account", land_inventory_accont):
+            frappe.throw(f"Account '{land_inventory_accont}' does not exist.")
+
         if not self.value_addition and not self.has_no_value_addition:
             frappe.throw("You cannot submit this document without adding records to the Value Addition Detail table or checking 'Has No Value Addition'.")
 
@@ -46,6 +62,8 @@ class EstateProject(Document):
 
                 frappe.throw("The Difference Amount MUST be 0. Ensure that you have spread the plots costs well to match the total land cost. If the difference is very small( between -1 and 1), you can check 'Ignore Difference Amount'.")
 
+        self.db_set("payment_status", "Pending")
+
         # if self.difference_amount != 0:
 
         #     frappe.throw("The Difference Amount MUST be 0. Ensure that you have spread the plots costs well to match the total land cost.")
@@ -54,7 +72,9 @@ class EstateProject(Document):
     def on_submit(self):
         try:
             project = self.create_project() 
+            self.create_journal(project_name=project.name)
             self.create_plots(project_name=project.name, project=self.name, creator_name=self.project_name)
+
         except Exception as e:
             frappe.log_error(frappe.get_traceback(), "Project Creation Error")
             frappe.throw(f"An error occurred while creating the project: {str(e)}")
@@ -68,6 +88,7 @@ class EstateProject(Document):
                 project = frappe.get_doc('Project', self.project)
                 project.db_set('status', 'Open')
                 project.db_set('project_name', self.project_name)
+                project.db_set('custom_project_creator_id', self.name)
             else:
                 # Create the ERPNext Project document
                 project = frappe.new_doc("Project")
@@ -83,6 +104,47 @@ class EstateProject(Document):
             frappe.msgprint(f"Project '{project.name}' created and linked successfully.")
 
             return project
+
+        except Exception as e:
+            frappe.log_error(frappe.get_traceback(), "Project Creation Failed")
+            frappe.throw(f"Failed to create project: {str(e)}")
+
+            frappe.throw(f"Failed to create project: {str(e)}")
+
+    def create_journal(self, project_name):
+        """Creates a new Journal Entry and links it to this Estate Project"""
+        try:
+            settings = frappe.get_single("EstatePro Accounts Settings")
+            creditors_account = settings.creditors_account
+            land_inventory_accont = settings.land_inventory_accont
+
+            je = frappe.new_doc("Journal Entry")
+            je.posting_date = self.posting_time
+            je.company = self.company
+            je.remark = f"Purchase of the project {self.name}"
+            je.voucher_type = "Journal Entry"
+            je.title = self.name
+
+            je.append("accounts", {
+                "account": land_inventory_accont,
+                "debit_in_account_currency": self.purchase_price,
+                "project": project_name,
+                "cost_center": self.cost_center            
+            })
+
+            je.append("accounts", {
+                "account": creditors_account,
+                "party_type": "Supplier",
+                "party": self.supplier,
+                "credit_in_account_currency": self.purchase_price,
+                "project": project_name,
+                "cost_center": self.cost_center            
+            })
+
+            je.save()
+            je.submit()
+            self.db_set("journal_entry", je.name)
+
 
         except Exception as e:
             frappe.log_error(frappe.get_traceback(), "Project Creation Failed")
@@ -141,7 +203,7 @@ class EstateProject(Document):
                     plot.plot_size_link = plot_size  
                     plot.valuation = valuation
 
-                    plot.insert()
+                    plot.insert(ignore_permissions=True)
                     frappe.db.commit()
 
                 # Create landbin for each plot size
@@ -150,12 +212,14 @@ class EstateProject(Document):
                 landbin.estate_project = project
                 landbin.actual_qty = count
                 landbin.projected_qty = count
-                landbin.project = self.project
+                landbin.project = project_name
                 landbin.valuation_rate = float(valuation)
                 landbin.stock_value = float(count * valuation)
 
                 landbin.insert(ignore_permissions=True)
-                frappe.db.commit(ignore_permissions=True)
+                frappe.db.commit()
+
+                # self.db_set("payment_status", "Pending")
 
             except Exception as e:
                 frappe.log_error(frappe.get_traceback(), f"Failed to create plot {plot_id}")
@@ -191,13 +255,31 @@ class EstateProject(Document):
 
 
     def on_cancel(self):
+        # Get the linked Journal Entry
+        if not self.journal_entry:
+            frappe.throw("No Journal Entry linked to this document to cancel.")
+
+        je = frappe.get_doc("Journal Entry", self.journal_entry)
+        try:
+            # Check if Journal Entry is already cancelled
+            if je.docstatus == 2:
+                frappe.throw("The linked Journal Entry is already cancelled.")
+
+            # Cancel the Journal Entry first
+            je.cancel()
+            self.db_set("journal_entry", "")
+            self.db_set("payment_status", "Pending")
+        except Exception as e:
+            frappe.throw(f"Cannot cancel Estate Project because the linked Journal '{je.name}' could not be Cancelled. Error: {str(e)}")
+
         # Delete linked Project
         project = frappe.get_doc('Project', self.project)
         try:
             project.db_set('status', 'Cancelled')
+            project.db_set('custom_project_creator_id', '')
             frappe.db.commit()
         except Exception as e:
-            frappe.throw(f"Cannot delete Estate Project because the linked Project '{project.name}' could not be updated. Error: {str(e)}")
+            frappe.throw(f"Cannot cancel Estate Project because the linked Project '{project.name}' could not be updated. Error: {str(e)}")
 
         # Delete related Plots
         plot_names = frappe.get_all(
@@ -222,3 +304,4 @@ class EstateProject(Document):
                 frappe.delete_doc("Land Bin", bin_name, ignore_permissions=True, force=True)
             except Exception as e:
                 frappe.log_error(f"Failed to delete Land Bin {bin_name}", str(e))
+

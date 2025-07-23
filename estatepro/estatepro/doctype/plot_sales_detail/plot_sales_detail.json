@@ -1,0 +1,188 @@
+{
+ "actions": [],
+ "creation": "2025-07-18 07:38:10.825726",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_hrhs",
+  "land_bin",
+  "plot_size",
+  "estate_project",
+  "valuation",
+  "total_valuation",
+  "qty",
+  "current_qty",
+  "column_break_skkm",
+  "sale_amount",
+  "total_amount",
+  "sale_amount_company_currency",
+  "size",
+  "uom",
+  "total_size",
+  "project"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_hrhs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "land_bin.plot_size",
+   "fieldname": "plot_size",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Plot Size link",
+   "options": "Plot Size",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "columns": 2,
+   "fetch_from": "land_bin.valuation_rate",
+   "fieldname": "valuation",
+   "fieldtype": "Currency",
+   "in_standard_filter": 1,
+   "label": "Valuation",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fetch_from": "land_bin.project",
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1
+  },
+  {
+   "columns": 3,
+   "fieldname": "sale_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Price",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "sale_amount_company_currency",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Sale Amount (Company Currency)",
+   "non_negative": 1,
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Qty",
+   "non_negative": 1,
+   "precision": "0",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "land_bin.estate_project",
+   "fieldname": "estate_project",
+   "fieldtype": "Link",
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Estate Project",
+   "options": "Estate Project",
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_skkm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "size",
+   "fieldtype": "Float",
+   "label": "Size",
+   "read_only": 1
+  },
+  {
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "options": "UOM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_size",
+   "fieldtype": "Float",
+   "label": "Total Size",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "land_bin.actual_qty",
+   "fieldname": "current_qty",
+   "fieldtype": "Float",
+   "label": "Current Qty",
+   "non_negative": 1,
+   "precision": "0",
+   "read_only": 1
+  },
+  {
+   "columns": 3,
+   "fetch_from": "plot_name.plot_size",
+   "fieldname": "land_bin",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Plot Size",
+   "options": "Land Bin",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fetch_from": "land_bin.valuation_rate",
+   "fieldname": "total_valuation",
+   "fieldtype": "Currency",
+   "label": "Total Valuation",
+   "non_negative": 1,
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [
+  {
+   "group": "Payment",
+   "link_doctype": "Receive Payment",
+   "link_fieldname": "plot_sale"
+  },
+  {
+   "group": "Payment",
+   "link_doctype": "Journal Entry",
+   "link_fieldname": "custom_landpro_reference"
+  }
+ ],
+ "modified": "2025-07-21 12:28:14.490599",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Plot Sales Detail",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

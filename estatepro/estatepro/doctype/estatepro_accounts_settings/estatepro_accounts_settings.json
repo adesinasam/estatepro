@@ -5,8 +5,11 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "default_company",
   "land_purchase_section",
   "land_inventory_accont",
+  "creditors_account",
+  "expenses_included_in_valuation",
   "column_break_oygc",
   "force_minimum_profit",
   "minimum_profit_percentage",
@@ -65,7 +68,7 @@
   {
    "fieldname": "cost_of_goods_sold_account",
    "fieldtype": "Link",
-   "label": "Cost Of Goods Sold Account",
+   "label": "Default Cost of Goods Sold Account",
    "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"root_type\",\"in\",[\"Expense\"]],[\"Account\",\"account_type\",\"in\",[\"Cost of Goods Sold\"]]]",
    "options": "Account"
   },
@@ -76,7 +79,7 @@
   {
    "fieldname": "sales_account",
    "fieldtype": "Link",
-   "label": "Sales Account",
+   "label": "Default Sales Account",
    "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"root_type\",\"in\",[\"Income\"]]]",
    "options": "Account"
   },
@@ -90,16 +93,37 @@
   {
    "fieldname": "debtors_account",
    "fieldtype": "Link",
-   "label": "Debtors Account",
+   "label": "Default Receivable Account",
    "link_filters": "[[\"Account\",\"is_group\",\"=\",0],[\"Account\",\"account_type\",\"in\",[\"Receivable\"]]]",
    "options": "Account"
+  },
+  {
+   "fieldname": "creditors_account",
+   "fieldtype": "Link",
+   "label": "Default Payable Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Payable\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "expenses_included_in_valuation",
+   "fieldtype": "Link",
+   "label": "Expenses included in Valuation Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expenses Included In Valuation\"]]",
+   "options": "Account"
+  },
+  {
+   "fieldname": "default_company",
+   "fieldtype": "Link",
+   "label": "Default Company",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2025-06-25 08:50:38.361790",
+ "modified": "2025-07-17 05:48:15.941725",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "EstatePro Accounts Settings",
@@ -124,6 +148,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

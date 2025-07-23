@@ -1,4 +1,5 @@
 import frappe
+from frappe.model.document import Document
 from frappe.utils import nowdate
 from frappe.utils import flt
 from frappe.utils import flt, fmt_money
@@ -17,45 +18,9 @@ def revert_item_status_on_cancel(doc, method):
     frappe.db.commit()
 
 
-# @frappe.whitelist()
-# def get_receive_payment_defaults(plot_sale_name):
-#     doc = frappe.get_doc("Plot Sale", plot_sale_name)
-
-#     next_due = frappe.get_list("Plot Payment Schedule",
-#         filters={
-#             "parent": plot_sale_name,
-#             "status": ["in", ["Unpaid", "Partially Paid"]],
-#             "due_date": ["<=", nowdate()]
-#         },
-#         fields=["amount"],
-#         order_by="due_date asc",
-#         limit_page_length=1
-#     )
-#     amt = next_due[0].amount if next_due else 0
-
-#     plot = frappe.get_doc("Plot", doc.plot_name)
-
-#     if not plot.project:
-#         frappe.throw("Plot not linked to Estate Project.")
-#     project = frappe.get_doc("Estate Project", plot.project)
-
-#     default_amt = (
-#         doc.sale_amount * float(project.set_downpayment_percentage or 0) / 100
-#         if project.allow_installments == "Yes" else doc.sale_amount
-#     )
-
-#     return {
-#         "plot_sale": doc.name,
-#         "receiving_account": doc.get("receiving_account"),
-#         "valuation": plot.valuation or 0,
-#         "sale_amount": doc.sale_amount,
-#         "project": plot.project,
-#         # "payment_period": project.payment_period,
-#         "paid_amount": amt or default_amt
-#     }
 @frappe.whitelist()
 def get_receive_payment_defaults(plot_sale_name):
-    doc = frappe.get_doc("Plot Sale", plot_sale_name)
+    doc = frappe.get_doc("Plot Sales", plot_sale_name)
 
     next_due = frappe.get_list("Plot Payment Schedule",
         filters={
@@ -69,12 +34,7 @@ def get_receive_payment_defaults(plot_sale_name):
     )
     amt = next_due[0].amount if next_due else 0
 
-    plot = frappe.get_doc("Plot", doc.plot_name)
-
-    if not plot.project:
-        frappe.throw("Plot not linked to Estate Project.")
-
-    project = frappe.get_doc("Estate Project", plot.project)
+    project = frappe.get_doc("Estate Project", doc.estate_project)
 
     if project.allow_installments == "Yes":
         if project.down_payment_terms == "Amount":
@@ -86,17 +46,17 @@ def get_receive_payment_defaults(plot_sale_name):
 
     return {
         "plot_sale": doc.name,
-        "receiving_account": doc.get("receiving_account"),
-        "valuation": plot.valuation or 0,
+        "valuation": doc.total_valuation or 0,
         "sale_amount": doc.sale_amount,
-        "project": plot.project,
+        "customer": doc.customer,
+        "estate_project": doc.estate_project,
         "paid_amount": amt or default_amt
     }
 
 
 @frappe.whitelist()
 def get_invoice_table_html(plot_sale):
-    sale = frappe.get_doc("Plot Sale", plot_sale)
+    sale = frappe.get_doc("Plot Sales", plot_sale)
     if sale.allow_installment == "Yes":
         sched = frappe.get_doc("Plot Payment Schedule", {"plot_sale": plot_sale})
 
@@ -197,4 +157,3 @@ def get_invoice_table_html(plot_sale):
         """
 
         return html
-

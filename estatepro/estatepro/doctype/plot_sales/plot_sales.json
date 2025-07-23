@@ -2,30 +2,48 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2025-07-11 11:33:54.666514",
+ "creation": "2025-07-18 05:37:21.475670",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_9ipm",
   "naming_series",
   "customer",
-  "company",
+  "estate_project",
+  "project",
+  "cost_center",
   "column_break_xilk",
   "posting_date",
   "set_posting_time",
+  "company",
   "payment_status",
-  "section_break_hrhs",
+  "sales_journal_entry",
+  "amended_from",
+  "section_break_glqn",
   "plots",
   "section_break_qcgx",
-  "total_sale_amount",
-  "sale_amount_company_currency",
+  "total_qty",
+  "total_size",
+  "column_break_mfof",
   "total_paid",
   "total_paid_company_currency",
-  "column_break_izso",
-  "total_valuation",
-  "valuation_company_currency",
   "balance",
   "balance_company_currency",
+  "column_break_izso",
+  "total_valuation",
+  "sale_amount",
+  "sale_amount_company_currency",
+  "section_break_hrhs",
+  "column_break_ciip",
+  "allow_installment",
+  "payment_plan",
+  "column_break_xvuh",
+  "down_payment_terms",
+  "set_downpayment_percentage",
+  "down_payment_amount",
+  "column_break_jrqi",
+  "down_payment_due_date",
+  "installment_start_date",
   "section_break_ha9p",
   "invoice_html",
   "contact_and_address_tab",
@@ -68,8 +86,7 @@
   "customer_group",
   "col_break23",
   "remarks",
-  "connections_tab",
-  "amended_from"
+  "connections_tab"
  ],
  "fields": [
   {
@@ -81,7 +98,7 @@
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Naming Series",
-   "options": "BLK-INV-"
+   "options": "INV-"
   },
   {
    "fieldname": "customer",
@@ -91,15 +108,24 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Customer",
+   "link_filters": "[[\"Customer\",\"disabled\",\"=\",0],[\"Customer\",\"is_frozen\",\"=\",0]]",
    "options": "Customer",
    "reqd": 1
   },
   {
+   "fetch_from": "estate_project.company",
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company",
    "read_only": 1
+  },
+  {
+   "default": ":Company",
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
   },
   {
    "fieldname": "column_break_xilk",
@@ -140,19 +166,94 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Bulk Plot Sale",
+   "options": "Plot Sale",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
   },
   {
+   "fieldname": "sales_journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1
+  },
+  {
    "fieldname": "section_break_hrhs",
    "fieldtype": "Section Break",
-   "label": "Plot Details"
+   "label": "Payment Plan"
+  },
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ciip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "allow_installment",
+   "fieldtype": "Select",
+   "label": "Allow Installment",
+   "options": "\nYes\nNo",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.allow_installment==\"Yes\"",
+   "fieldname": "payment_plan",
+   "fieldtype": "Int",
+   "label": "Payment Plan (Months)",
+   "mandatory_depends_on": "eval:doc.allow_installment==\"Yes\""
+  },
+  {
+   "depends_on": "eval:doc.allow_installment==\"Yes\"",
+   "fieldname": "down_payment_terms",
+   "fieldtype": "Select",
+   "label": "Down Payment Terms",
+   "options": "\nPercent\nAmount"
+  },
+  {
+   "depends_on": "eval:doc.allow_installment==\"Yes\" && doc.down_payment_terms==\"Percent\"",
+   "fieldname": "set_downpayment_percentage",
+   "fieldtype": "Percent",
+   "label": "Down Payment Percent(%)  ",
+   "mandatory_depends_on": "eval:doc.allow_installment==\"Yes\" && doc.down_payment_terms==\"Percent\""
+  },
+  {
+   "depends_on": "eval:doc.allow_installment==\"Yes\" && doc.down_payment_terms==\"Amount\"",
+   "fieldname": "down_payment_amount",
+   "fieldtype": "Currency",
+   "label": "Down Payment Amount",
+   "mandatory_depends_on": "eval:doc.allow_installment==\"Yes\" && doc.down_payment_terms==\"Amount\""
+  },
+  {
+   "depends_on": "eval:doc.allow_installment==\"Yes\"",
+   "fieldname": "down_payment_due_date",
+   "fieldtype": "Date",
+   "label": "Down Payment Due Date ",
+   "mandatory_depends_on": "eval:doc.allow_installment==\"Yes\""
+  },
+  {
+   "depends_on": "eval:doc.allow_installment==\"Yes\"",
+   "fieldname": "installment_start_date",
+   "fieldtype": "Date",
+   "label": "Installment Start Date",
+   "mandatory_depends_on": "eval:doc.allow_installment==\"Yes\""
   },
   {
    "fieldname": "section_break_qcgx",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "sale_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Total Sales Amount",
+   "non_negative": 1,
+   "read_only": 1
   },
   {
    "fieldname": "sale_amount_company_currency",
@@ -160,7 +261,7 @@
    "hidden": 1,
    "in_filter": 1,
    "in_list_view": 1,
-   "label": "Sale Amount (Company Currency)",
+   "label": "Total Sales Amount (Company Currency)",
    "non_negative": 1,
    "options": "Company:company:default_currency",
    "read_only": 1
@@ -172,7 +273,6 @@
   {
    "fieldname": "total_paid",
    "fieldtype": "Currency",
-   "hidden": 1,
    "in_filter": 1,
    "in_list_view": 1,
    "label": "Total Paid",
@@ -193,10 +293,9 @@
   {
    "fieldname": "balance",
    "fieldtype": "Currency",
+   "in_filter": 1,
    "in_list_view": 1,
-   "in_preview": 1,
    "label": "Balance",
-   "non_negative": 1,
    "read_only": 1
   },
   {
@@ -425,7 +524,6 @@
    "collapsible_depends_on": "sales_partner",
    "fieldname": "sales_team_section_break",
    "fieldtype": "Section Break",
-   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Commission",
@@ -488,7 +586,6 @@
    "collapsible_depends_on": "sales_team",
    "fieldname": "section_break2",
    "fieldtype": "Section Break",
-   "hidden": 1,
    "hide_days": 1,
    "hide_seconds": 1,
    "label": "Sales Team",
@@ -576,45 +673,65 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Bulk Plot Sale",
+   "options": "Plot Sale",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
   },
   {
-   "fieldname": "plots",
-   "fieldtype": "Table",
-   "label": "Plots",
-   "options": "Plot Sale Items"
-  },
-  {
-   "fieldname": "total_sale_amount",
-   "fieldtype": "Currency",
-   "in_filter": 1,
+   "fetch_from": "plot_name.project",
+   "fieldname": "estate_project",
+   "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Total Sale Amount",
-   "non_negative": 1,
-   "read_only": 1,
-   "reqd": 1
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Estate Project",
+   "link_filters": "[[\"Estate Project\",\"project_status\",\"=\",\"Open\"],[\"Estate Project\",\"is_active\",\"=\",\"Yes\"],[\"Estate Project\",\"docstatus\",\"=\",\"1\"]]",
+   "options": "Estate Project",
+   "reqd": 1,
+   "search_index": 1
   },
   {
+   "fieldname": "total_size",
+   "fieldtype": "Int",
+   "label": "Total Size (sqm)",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plot_name.valuation",
    "fieldname": "total_valuation",
    "fieldtype": "Currency",
    "label": "Total Valuation",
    "non_negative": 1,
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
-   "fieldname": "valuation_company_currency",
-   "fieldtype": "Currency",
-   "hidden": 1,
-   "in_filter": 1,
-   "in_list_view": 1,
-   "label": "Valuation (Company Currency)",
-   "non_negative": 1,
-   "options": "Company:company:default_currency",
+   "fieldname": "plots",
+   "fieldtype": "Table",
+   "label": "Plot Sales Detail",
+   "options": "Plot Sales Detail"
+  },
+  {
+   "fieldname": "section_break_glqn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty",
    "read_only": 1
+  },
+  {
+   "fieldname": "column_break_xvuh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mfof",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_jrqi",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
@@ -623,14 +740,14 @@
  "links": [
   {
    "group": "Payment",
-   "link_doctype": "Journal Entry",
-   "link_fieldname": "custom_landpro_reference"
+   "link_doctype": "Receive Payment",
+   "link_fieldname": "plot_sale"
   }
  ],
- "modified": "2025-07-12 18:23:15.938674",
+ "modified": "2025-07-22 21:53:18.624864",
  "modified_by": "Administrator",
  "module": "EstatePro",
- "name": "Bulk Plot Sale",
+ "name": "Plot Sales",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
@@ -677,8 +794,7 @@
   }
  ],
  "row_format": "Dynamic",
- "search_fields": "customer",
- "show_title_field_in_link": 1,
+ "search_fields": "customer,estate_project",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

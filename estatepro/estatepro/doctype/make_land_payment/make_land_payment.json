@@ -15,6 +15,7 @@
   "column_break_xxib",
   "paid_amount",
   "paying_account",
+  "supplier",
   "pay_to",
   "column_break_ggwn",
   "posting_date",
@@ -50,8 +51,8 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Project Name",
+   "link_filters": "[[\"Estate Project\",\"payment_status\",\"!=\",\"Paid\"],[\"Estate Project\",\"docstatus\",\"=\",\"1\"]]",
    "options": "Estate Project",
-   "read_only": 1,
    "reqd": 1,
    "search_index": 1
   },
@@ -90,15 +91,16 @@
    "reqd": 1
   },
   {
+   "fetch_from": "supplier.supplier_name",
    "fieldname": "pay_to",
    "fieldtype": "Data",
-   "label": "Pay to"
+   "label": "Pay to",
+   "read_only": 1
   },
   {
    "fetch_from": "project_name.project",
    "fieldname": "project",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Project",
    "options": "Project",
    "read_only": 1,
@@ -141,13 +143,22 @@
    "label": "Posting Date",
    "read_only_depends_on": "eval: doc.set_posting_time == 0;",
    "reqd": 1
+  },
+  {
+   "fetch_from": "project_name.supplier",
+   "fieldname": "supplier",
+   "fieldtype": "Link",
+   "label": "Supplier",
+   "options": "Supplier",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-10 10:39:09.975145",
+ "modified": "2025-07-17 16:48:59.034718",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Make Land Payment",

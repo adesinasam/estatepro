@@ -4,7 +4,7 @@ frappe.ui.form.on('Receive Payment', {
             frappe.throw("Paid amount must be greater than 0.");
         }
         if (frm.doc.plot_sale) {
-            frappe.db.get_doc('Plot Sale', frm.doc.plot_sale).then(sale => {
+            frappe.db.get_doc('Plot Sales', frm.doc.plot_sale).then(sale => {
                 if (frm.doc.paid_amount > sale.balance) {
                     frappe.throw(`Paid amount exceeds remaining balance of ${sale.balance}`);
                 }
@@ -26,8 +26,8 @@ frappe.ui.form.on('Receive Payment', {
 
     refresh(frm) {
         if (!frm.is_new() && frm.doc.docstatus === 1 && frm.doc.plot_sale) {
-            frm.add_custom_button("View Plot Sale", () => {
-                frappe.set_route('Form', 'Plot Sale', frm.doc.plot_sale);
+            frm.add_custom_button("View Plot Sales", () => {
+                frappe.set_route('Form', 'Plot Sales', frm.doc.plot_sale);
             }, 'View');
 
             frappe.db.get_value('Plot Payment Schedule', { plot_sale: frm.doc.plot_sale }, 'name')
@@ -74,7 +74,7 @@ frappe.ui.form.on('Receive Payment', {
         frappe.call({
             method: "frappe.client.get",
             args: {
-                doctype: "Plot Sale",
+                doctype: "Plot Sales",
                 name: frm.doc.plot_sale,
                 fieldname: ["sales_team"]
             },

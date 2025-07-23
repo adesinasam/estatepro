@@ -9,16 +9,16 @@ from frappe.model.document import Document
 class MakeLandPayment(Document):
     def on_submit(self):
         settings = frappe.get_single("EstatePro Accounts Settings")
-        land_inventory_accont = settings.land_inventory_accont
+        creditors_account = settings.creditors_account
 
-        if not land_inventory_accont:
+        if not creditors_account:
             frappe.throw("Estate Inventory Account is not configured in EstatePro Accounts Settings.")
         
         if not self.paying_account:
             frappe.throw("Paying Account is required.")
         
-        if not frappe.db.exists("Account", land_inventory_accont):
-            frappe.throw(f"Account '{land_inventory_accont}' does not exist.")
+        if not frappe.db.exists("Account", creditors_account):
+            frappe.throw(f"Account '{creditors_account}' does not exist.")
         
         if not frappe.db.exists("Account", self.paying_account):
             frappe.throw(f"Account '{self.paying_account}' does not exist.")
@@ -33,15 +33,16 @@ class MakeLandPayment(Document):
 
         je = frappe.new_doc("Journal Entry")
         je.posting_date = self.posting_date
-        je.company = frappe.defaults.get_user_default("Company")
-        je.remark = f"Purchase of the project {self.project_name}"
+        je.company = self.company
+        je.remark = f"Payment for purchase of the project {self.project_name}"
         je.voucher_type = "Journal Entry"
         je.title = self.name
-        # je.custom_estatepro_doctype = "Make Land Payment"
-        # je.custom_estatepro_reference = self.name
+        je.pay_to_recd_from = self.pay_to
 
         je.append("accounts", {
-            "account": land_inventory_accont,
+            "account": creditors_account,
+            "party_type": "Supplier",
+            "party": self.supplier,
             "debit_in_account_currency": self.paid_amount,
             "project": self.project,
             "cost_center": self.cost_center            
@@ -68,42 +69,6 @@ class MakeLandPayment(Document):
             project.db_set("payment_status", "Paid")
         else:
             project.db_set("payment_status", "Partly Paid")
-
-    # def on_cancel(self):
-    #     # Get the linked Journal Entry
-    #     je = frappe.get_all("Journal Entry",
-    #         filters={
-    #             "custom_estatepro_doctype": "Make Land Payment",
-    #             "custom_estatepro_reference": self.name,
-    #             "docstatus": 1
-    #         },
-    #         limit=1
-    #     )
-
-    #     if je:
-    #         je_doc = frappe.get_doc("Journal Entry", je[0].name)
-    #         je_doc.cancel()
-
-    #     # Update the project's payment details
-    #     project = frappe.get_doc("Estate Project", self.project_name)
-    #     new_total_paid = (project.total_paid or 0) - self.paid_amount
-
-    #     # Ensure we don't go negative
-    #     if new_total_paid < 0:
-    #         new_total_paid = 0
-
-    #     new_balance = project.total_project_cost - new_total_paid
-
-    #     project.db_set("total_paid", new_total_paid)
-    #     project.db_set("balance", new_balance)
-
-    #     # Update payment status
-    #     if new_total_paid == 0:
-    #         project.db_set("payment_status", "Unpaid")
-    #     elif new_total_paid >= project.total_project_cost:
-    #         project.db_set("payment_status", "Paid")
-    #     else:
-    #         project.db_set("payment_status", "Partly Paid")
 
     def on_cancel(self):
         # Get the linked Journal Entry

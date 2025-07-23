@@ -6,14 +6,16 @@ from frappe.utils import nowdate
 
 class ReceivePayment(Document):
     def on_submit(self):
-        settings = frappe.get_single("EstatePro Accounts Settings")
-        debtors_account=settings.debtors_account
         if not self.plot_sale:
-            frappe.throw("Plot Sale reference is required.")
+            frappe.throw("Plot Sales reference is required.")
 
-        sale = frappe.get_doc("Plot Sale", self.plot_sale)
+        if not (self.paid_amount and self.paid_amount > 0):
+            frappe.throw("Paid amount must be greater than zero.")
+
+        sale = frappe.get_doc("Plot Sales", self.plot_sale)
         settings = frappe.get_single("EstatePro Accounts Settings")
 
+        debtors_account=settings.debtors_account
         sales_account = settings.sales_account
         cogs_account = settings.cost_of_goods_sold_account
         unearned_revenue_account = settings.unearned_revenue_account
@@ -37,8 +39,6 @@ class ReceivePayment(Document):
         je.remark = f"Payment received and income recognized for plot {sale.plot_name}"
         je.project = self.project 
         je.title = self.name
-        # je.custom_estatepro_doctype = "Receive Payment"
-        # je.custom_estatepro_reference = self.name
 
         if self.is_bulk_plot_payment == 0:
             # 1. Debit Bank
@@ -95,24 +95,22 @@ class ReceivePayment(Document):
         je.submit()
         self.db_set("journal_entry", je.name)
 
-        # Update Plot Sale totals
-        total_paid = (sale.total_paid or 0) + self.paid_amount
-        new_balance = sale.sale_amount - total_paid
+        # Update Plot Sales totals
+        total_paid = flt(sale.total_paid or 0) + flt(self.paid_amount)
+        new_balance = flt(sale.sale_amount) - flt(total_paid)
 
-        frappe.db.set_value("Plot Sale", sale.name, "total_paid", total_paid)
-        frappe.db.set_value("Plot Sale", sale.name, "balance", new_balance)
-        frappe.db.set_value("Plot Sale", sale.name, "payment_status",
-            "Paid" if new_balance <= 0 else "Partly Paid")
-        
-        if not (self.paid_amount and self.paid_amount > 0):
-            frappe.throw("Paid amount must be greater than zero.")
+        frappe.logger().debug(f"Updating Plot Sales {sale.name}: total_paid={total_paid}, new_balance={new_balance}")
 
-        total_paid = (sale.total_paid or 0) + self.paid_amount
-        new_balance = sale.sale_amount - total_paid
-        sale.db_set("total_paid", total_paid)
-        sale.db_set("balance", new_balance)
-        sale.db_set("payment_status", "Paid" if new_balance == 0 else "Partly Paid")
-        
+        frappe.db.set_value("Plot Sales", sale.name, {
+            "total_paid": total_paid,
+            "balance": new_balance,
+            "payment_status": "Paid" if new_balance <= 0 else "Partly Paid"
+            })
+        # frappe.db.set_value("Plot Sales", sale.name, "total_paid", total_paid)
+        # frappe.db.set_value("Plot Sales", sale.name, "balance", new_balance)
+        # frappe.db.set_value("Plot Sales", sale.name, "payment_status",
+        #     "Paid" if new_balance <= 0 else "Partly Paid")
+       
         if sale.allow_installment == "Yes":
             if sale.down_payment_terms == "Amount":
                 self.down_payment = sale.down_payment_amount or 0
@@ -131,7 +129,7 @@ class ReceivePayment(Document):
 
 
     def create_realtor_gl_entry(self):
-        sale = frappe.get_doc("Plot Sale", self.plot_sale)
+        sale = frappe.get_doc("Plot Sales", self.plot_sale)
         team_names = self.get("sales_team")
 
         for team in team_names:
@@ -160,14 +158,12 @@ class ReceivePayment(Document):
                     filters={
                         "sales_person": sales_person, 
                         "parent": sale.name, 
-                        "parenttype": 'Plot Sale'
+                        "parenttype": 'Plot Sales'
                     }
                 )
                 if sale_team:
-                    custom_allocated_amount = sale_team.custom_allocated_amount
-                    new_allocated_amount = team.custom_allocated_amount + (sale_team.custom_allocated_amount or 0)
-                    custom_outstanding = sale_team.custom_outstanding
-                    new_outstanding = team.custom_outstanding + (sale_team.custom_outstanding or 0)
+                    new_allocated_amount = flt(sale_team.custom_allocated_amount or 0) + flt(team.incentives or 0)
+                    new_outstanding = flt(sale_team.custom_outstanding or 0) + flt(team.incentives or 0)
                     sale_team.db_set('custom_allocated_amount', new_allocated_amount)
                     sale_team.db_set('custom_outstanding', new_outstanding)
                     frappe.db.commit()
@@ -199,7 +195,7 @@ class ReceivePayment(Document):
 
 
     def update_invoice_table(self):
-        sale = frappe.get_doc("Plot Sale", self.plot_sale)
+        sale = frappe.get_doc("Plot Sales", self.plot_sale)
 
         sched = frappe.get_doc("Plot Payment Schedule", {"plot_sale": self.plot_sale})
 
@@ -237,13 +233,13 @@ class ReceivePayment(Document):
         </table>
         """
 
-        # Save the HTML to a field in Plot Sale
+        # Save the HTML to a field in Plot Sales
         sale.invoice = html
         sale.save(ignore_permissions=True)
 
     def on_cancel(self):
-        # Get the Plot Sale document
-        sale = frappe.get_doc("Plot Sale", self.plot_sale)
+        # Get the Plot Sales document
+        sale = frappe.get_doc("Plot Sales", self.plot_sale)
 
         # Cancel and delete the Journal Entry
         if self.journal_entry:
@@ -252,14 +248,19 @@ class ReceivePayment(Document):
                 je.cancel()
             self.db_set("journal_entry", "")
 
-        # Revert the Plot Sale totals
-        total_paid = (sale.total_paid or 0) - self.paid_amount
-        new_balance = sale.sale_amount - total_paid
+        # Revert the Plot Sales totals
+        total_paid = flt(sale.total_paid or 0) - flt(self.paid_amount)
+        new_balance = flt(sale.sale_amount) + flt(total_paid)
 
-        frappe.db.set_value("Plot Sale", sale.name, "total_paid", total_paid)
-        frappe.db.set_value("Plot Sale", sale.name, "balance", new_balance)
-        frappe.db.set_value("Plot Sale", sale.name, "payment_status",
-            "Paid" if new_balance <= 0 else "Partly Paid")
+        frappe.db.set_value("Plot Sales", sale.name, {
+            "total_paid": total_paid,
+            "balance": new_balance,
+            "payment_status": "Paid" if new_balance <= 0 else "Partly Paid"
+            })
+        # frappe.db.set_value("Plot Sales", sale.name, "total_paid", total_paid)
+        # frappe.db.set_value("Plot Sales", sale.name, "balance", new_balance)
+        # frappe.db.set_value("Plot Sales", sale.name, "payment_status",
+        #     "Paid" if new_balance <= 0 else "Partly Paid")
 
         # Revert payment schedule entries
         if sale.allow_installment == "Yes":
@@ -298,7 +299,7 @@ class ReceivePayment(Document):
             frappe.delete_doc("Realtor GL Entry", entry.name)
 
         # Revert Sales Team allocations
-        sale = frappe.get_doc("Plot Sale", self.plot_sale)
+        sale = frappe.get_doc("Plot Sales", self.plot_sale)
         team_names = self.get("sales_team")
 
         for team in team_names:
@@ -309,14 +310,14 @@ class ReceivePayment(Document):
                     filters={
                         "sales_person": sales_person, 
                         "parent": sale.name, 
-                        "parenttype": 'Plot Sale'
+                        "parenttype": 'Plot Sales'
                     }
                 )
                 if sale_team:
-                    new_allocated_amount = (sale_team.custom_allocated_amount or 0) - (team.custom_allocated_amount or 0)
-                    new_outstanding = (sale_team.custom_outstanding or 0) - (team.custom_outstanding or 0)
-                    sale_team.db_set('custom_allocated_amount', max(new_allocated_amount, 0))
-                    sale_team.db_set('custom_outstanding', max(new_outstanding, 0))
+                    new_allocated_amount = flt(sale_team.custom_allocated_amount or 0) - flt(team.incentives or 0)
+                    new_outstanding = flt(sale_team.custom_outstanding or 0) - flt(team.incentives or 0)
+                    sale_team.db_set('custom_allocated_amount', new_allocated_amount)
+                    sale_team.db_set('custom_outstanding', new_outstanding)
                     frappe.db.commit()
             except Exception as e:
                 frappe.log_error(f"Failed to revert sales team allocation for {sales_person}", str(e))

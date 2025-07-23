@@ -32,7 +32,7 @@ def get_data(filters):
             COALESCE(SUM(CASE WHEN ps.docstatus = 1 THEN ps.balance ELSE 0 END), 0) as outstanding_payments,
             COALESCE(GROUP_CONCAT(DISTINCT ps.payment_status), 'None') as payment_status
         FROM `tabPlot` pl
-        LEFT JOIN `tabPlot Sale` ps ON ps.plot_name = pl.name AND ps.docstatus = 1
+        LEFT JOIN `tabPlot Sales` ps ON ps.plot_name = pl.name AND ps.docstatus = 1
         WHERE 1=1 {conditions}
         GROUP BY pl.project
     """.format(conditions=conditions)

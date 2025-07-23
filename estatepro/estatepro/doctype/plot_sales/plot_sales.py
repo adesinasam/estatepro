@@ -1,4 +1,4 @@
-# Copyright (c) 2025, Upeosoft Limited and contributors
+# Copyright (c) 2025, Adesina Akinyemi and contributors
 # For license information, please see license.txt
 
 import frappe
@@ -8,16 +8,16 @@ from frappe import _, msgprint, throw
 from frappe.contacts.doctype.address.address import get_address_display
 
 
-class PlotSale(Document):
+class PlotSales(Document):
     def validate(self):
-        if frappe.flags.in_insert and frappe.db.exists("Plot Sale", self.name):
-            frappe.throw("This Plot Sale record already exists.")
+        if frappe.flags.in_insert and frappe.db.exists("Plot Sales", self.name):
+            frappe.throw("This Plot Sales record already exists.")
 
-        self.balance = self.sale_amount
-        self.project = frappe.db.get_value("Estate Project", self.project_creator, "project")
+        self.balance = flt(self.sale_amount) - flt(self.total_paid or 0)
+        self.project = frappe.db.get_value("Estate Project", self.estate_project, "project")
 
-        self.update_sales_team_from_customer()
-        self.calculate_incentives()
+        # self.update_sales_team_from_customer()
+        # self.calculate_incentives()
 
         if not self.company:
             self.company = frappe.defaults.get_user_default("Company")
@@ -25,8 +25,7 @@ class PlotSale(Document):
         settings = frappe.get_single("EstatePro Accounts Settings")
 
         if settings.force_minimum_profit == 1:
-            plot = frappe.get_doc("Plot", self.plot_name)
-            valuation = plot.valuation or 0
+            valuation = self.total_valuation or 0
 
             min_profit_percent = settings.minimum_profit_percentage or 0
             min_sale_price = valuation + (valuation * min_profit_percent / 100)
@@ -41,10 +40,9 @@ class PlotSale(Document):
         self.set_payment_plan_from_project()
 
     def set_payment_plan_from_project(self):
-        if not self.payment_plan and self.plot_name:
-            plot = frappe.get_doc('Plot', self.plot_name)
-            if plot.project:
-                project = frappe.get_doc('Estate Project', plot.project)
+        if not self.payment_plan and self.estate_project:
+            if self.estate_project:
+                project = frappe.get_doc('Estate Project', self.estate_project)
                 if project.allow_installments == "Yes" and project.payment_period:
                     self.allow_installment = "Yes"
                     self.payment_period = project.payment_period
@@ -63,15 +61,15 @@ class PlotSale(Document):
 
     def on_submit(self):
         settings = frappe.get_single("EstatePro Accounts Settings")
-        plot = frappe.get_doc("Plot", self.plot_name)
-        if not self.plot_name:
-            frappe.throw("Plot is required to post to Plot Sale.")
+        # plot = frappe.get_doc("Plot", self.plot_name)
+        # if not self.plot_name:
+        #     frappe.throw("Plot is required to post to Plot Sales.")
 
-        frappe.db.set_value("Plot", self.plot_name, "status", "Sold")
+        # frappe.db.set_value("Plot", self.plot_name, "status", "Sold")
 
-        debtors_account = settings.debtors_account
+        debtors_account = self.debit_to
         unearned_revenue_account = settings.unearned_revenue_account
-        self.balance = self.sale_amount
+        self.balance = flt(self.sale_amount) - flt(self.total_paid or 0)
 
         if not self.customer:
             frappe.throw("Customer is required to post to Debtors account.")
@@ -82,13 +80,11 @@ class PlotSale(Document):
         # Create initial Journal Entry (Debtors vs Unearned Revenue)
         je = frappe.new_doc("Journal Entry")
         je.posting_date = self.posting_date
-        je.company = frappe.defaults.get_user_default("Company")
+        je.company = self.company or frappe.defaults.get_user_default("Company")
         je.voucher_type = "Journal Entry"
-        je.remark = f"Initial sale recorded for plot {plot.plot_name}"
+        je.remark = f"Initial Plot Sales record of Project {self.estate_project} for Customer {self.customer}"
         je.project = self.project
         je.title = self.name
-        # je.custom_estatepro_doctype = "Plot Sale"
-        # je.custom_estatepro_reference = self.name
 
         je.append("accounts", {
             "account": debtors_account,
@@ -111,36 +107,29 @@ class PlotSale(Document):
         self.db_set("sales_journal_entry", je.name)
 
         # Update land bin
-        # First find the Land Bin name
-        land_bin_name = frappe.db.get_value(
-            "Land Bin",
-            filters={
-                'estate_project': self.project_creator, 
-                'plot_size': self.plot_size
-            },
-            fieldname='name'
-        )
+        for plot_row in self.plots:
+            land_bin_name = plot_row.land_bin
 
-        if not land_bin_name:
-            frappe.throw(f"No Land Bin found for project {self.project_creator} and plot size {self.plot_size}")
+            if not land_bin_name:
+                frappe.throw(f"No Land Bin found for project {self.estate_project} and plot size {plot_row.plot_size}")
 
-        # Get the Land Bin document
-        land_bin = frappe.get_doc("Land Bin", land_bin_name)
+            # Get the Land Bin document
+            land_bin = frappe.get_doc("Land Bin", land_bin_name)
 
-        # Update quantities
-        ordered_qty = (land_bin.ordered_qty or 0) + 1
-        actual_qty = (land_bin.actual_qty or 0) - 1
-        stock_value = land_bin.valuation_rate * actual_qty
+            # Update quantities
+            ordered_qty = (land_bin.ordered_qty or 0) + (plot_row.qty or 0)
+            actual_qty = (land_bin.actual_qty or 0) - (plot_row.qty or 0)
+            stock_value = land_bin.valuation_rate * actual_qty
 
-        # Using db.set_value
-        frappe.db.set_value("Land Bin", land_bin_name, {
-            "ordered_qty": ordered_qty,
-            "actual_qty": actual_qty,
-            "stock_value": stock_value
-        }, ignore_permissions=True)
+            # Using db.set_value
+            frappe.db.set_value("Land Bin", land_bin_name, {
+                "ordered_qty": ordered_qty,
+                "actual_qty": actual_qty,
+                "stock_value": stock_value
+            })
 
         # Generate payment schedule
-        project = frappe.get_doc("Estate Project", self.project_creator)
+        project = frappe.get_doc("Estate Project", self.estate_project)
         allow_installments = project.allow_installments
 
         if allow_installments == "Yes":
@@ -154,7 +143,6 @@ class PlotSale(Document):
             months = self.payment_plan if self.payment_plan else 0
 
             sched = frappe.new_doc("Plot Payment Schedule")
-            sched.plot_id = self.plot_name
             sched.plot_sale = self.name
             sched.sale_date = self.posting_date
 
@@ -209,9 +197,6 @@ class PlotSale(Document):
             row.incentives = (row.allocated_percentage / 100) * self.sale_amount
 
     def on_cancel(self):
-        # Revert plot status to Available
-        frappe.db.set_value("Plot", self.plot_name, "status", "Available")
-
         # Cancel and delete linked Journal Entry
         if self.sales_journal_entry:
             je = frappe.get_doc("Journal Entry", self.sales_journal_entry)
@@ -220,33 +205,27 @@ class PlotSale(Document):
             self.db_set("sales_journal_entry", "")
 
         # Update land bin quantities
-        land_bin_name = frappe.db.get_value(
-            "Land Bin",
-            filters={
-                'estate_project': self.project_creator, 
-                'plot_size': self.plot_size
-            },
-            fieldname='name'
-        )
+        for plot_row in self.plots:
+            land_bin_name = plot_row.land_bin
 
-        if land_bin_name:
-            land_bin = frappe.get_doc("Land Bin", land_bin_name)
-            ordered_qty = (land_bin.ordered_qty or 0) - 1
-            actual_qty = (land_bin.actual_qty or 0) + 1
-            stock_value = land_bin.valuation_rate * actual_qty
+            if land_bin_name:
+                land_bin = frappe.get_doc("Land Bin", land_bin_name)
+                ordered_qty = (land_bin.ordered_qty or 0) - (plot_row.qty or 0)
+                actual_qty = (land_bin.actual_qty or 0) + (plot_row.qty or 0)
+                stock_value = land_bin.valuation_rate * actual_qty
 
             frappe.db.set_value("Land Bin", land_bin_name, {
-                "ordered_qty": ordered_qty,
-                "actual_qty": actual_qty,
-                "stock_value": stock_value
-            }, ignore_permissions=True)
+                    "ordered_qty": ordered_qty,
+                    "actual_qty": actual_qty,
+                    "stock_value": stock_value
+                }, ignore_permissions=True)
 
         # Delete payment schedule if exists
         payment_schedule = frappe.db.get_value("Plot Payment Schedule", {"plot_sale": self.name})
         if payment_schedule:
             frappe.delete_doc("Plot Payment Schedule", payment_schedule)
 
-        frappe.msgprint(f"Plot Sale {self.name} has been cancelled successfully")
+        frappe.msgprint(f"Plot Sales {self.name} has been cancelled successfully")
 
 @frappe.whitelist()
 def get_payment_schedule(plot_sale):

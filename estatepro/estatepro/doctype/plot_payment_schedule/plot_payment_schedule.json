@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:PLT-PAY-{plot_id}",
+ "autoname": "PLT-PAY-SCH-.######",
  "creation": "2025-06-06 10:04:25.962368",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,29 +14,33 @@
   {
    "fieldname": "sale_date",
    "fieldtype": "Date",
-   "label": "Sale Date"
+   "label": "Sale Date",
+   "read_only": 1
   },
   {
    "fieldname": "plot_payment",
    "fieldtype": "Table",
    "label": "Plot Payment",
-   "options": "Plot Payment"
+   "options": "Plot Payment",
+   "read_only": 1
   },
   {
    "fieldname": "plot_sale",
    "fieldtype": "Link",
    "label": "Plot Sale",
-   "options": "Plot Sale"
+   "options": "Plot Sales",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-06-26 09:28:14.447000",
+ "modified": "2025-07-21 20:55:47.022183",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Plot Payment Schedule",
- "naming_rule": "Expression",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
@@ -75,6 +79,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
