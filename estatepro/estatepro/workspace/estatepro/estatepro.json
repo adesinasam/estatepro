@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"OjupIfogjg\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>EstatePro</b></span>\",\"col\":12}},{\"id\":\"ZAGn9n0eRr\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Plots Sold\",\"col\":4}},{\"id\":\"hcUI99RCM-\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Amount Collected\",\"col\":4}},{\"id\":\"e4MgneuXT4\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Outstanding Payments\",\"col\":4}},{\"id\":\"MxTJlt3Ggx\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"4yMqY_dWld\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Quick Access</span>\",\"col\":12}},{\"id\":\"pZLNks_NWO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Estate Project\",\"col\":3}},{\"id\":\"NRrPChlPTz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plots\",\"col\":3}},{\"id\":\"VPvjPu98Kq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plot Sales\",\"col\":3}},{\"id\":\"JAlmmc9MZ3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Realtor Payment Entry\",\"col\":3}},{\"id\":\"ZiHl7dNf5u\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CAxldy6rMD\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchases\",\"col\":4}},{\"id\":\"C2GIIW93AO\",\"type\":\"card\",\"data\":{\"card_name\":\"Income\",\"col\":4}},{\"id\":\"Lm0hoJ9F-O\",\"type\":\"card\",\"data\":{\"card_name\":\"Commissions\",\"col\":4}},{\"id\":\"OhSaiu343G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5CasaPr9X7\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"4XikpnxSaR\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"qWM0awFiRH\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}}]",
+ "content": "[{\"id\":\"OjupIfogjg\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>EstatePro</b></span>\",\"col\":12}},{\"id\":\"ZAGn9n0eRr\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Plots Sold\",\"col\":4}},{\"id\":\"hcUI99RCM-\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Amount Collected\",\"col\":4}},{\"id\":\"e4MgneuXT4\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Outstanding Payments\",\"col\":4}},{\"id\":\"MxTJlt3Ggx\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"4yMqY_dWld\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Quick Access</span>\",\"col\":12}},{\"id\":\"pZLNks_NWO\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Estate Project\",\"col\":3}},{\"id\":\"NRrPChlPTz\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plots\",\"col\":3}},{\"id\":\"VPvjPu98Kq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Plot Sales\",\"col\":3}},{\"id\":\"JAlmmc9MZ3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Realtor Payment Entry\",\"col\":3}},{\"id\":\"ZiHl7dNf5u\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"CAxldy6rMD\",\"type\":\"card\",\"data\":{\"card_name\":\"Purchases\",\"col\":4}},{\"id\":\"C2GIIW93AO\",\"type\":\"card\",\"data\":{\"card_name\":\"Income\",\"col\":4}},{\"id\":\"FaTf_WiVwQ\",\"type\":\"card\",\"data\":{\"card_name\":\"Expenses\",\"col\":4}},{\"id\":\"OhSaiu343G\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"Lm0hoJ9F-O\",\"type\":\"card\",\"data\":{\"card_name\":\"Commissions\",\"col\":4}},{\"id\":\"4XikpnxSaR\",\"type\":\"card\",\"data\":{\"card_name\":\"Settings\",\"col\":4}},{\"id\":\"qWM0awFiRH\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"HU9y48MVJA\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"5CasaPr9X7\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}}]",
  "creation": "2025-06-23 03:53:42.232974",
  "custom_blocks": [],
  "docstatus": 0,
@@ -257,9 +257,48 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expenses",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Project Expense (Value Added)",
+   "link_count": 0,
+   "link_to": "Project Expense",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Expense Entry",
+   "link_count": 0,
+   "link_to": "Expense Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Payment Entry",
+   "link_count": 0,
+   "link_to": "Payment Entry",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2025-07-22 07:45:47.245361",
+ "modified": "2025-07-24 04:40:49.984160",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "EstatePro",

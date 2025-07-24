@@ -6,6 +6,13 @@ from frappe.model.document import Document
 
 
 class ProjectExpense(Document):
+    def validate(self):
+        if not self.is_paid:
+            if not self.paying_account and self.amount > 0:
+                frappe.throw(
+                    f"Paying Account cannot be empty since Paid Amount is greater than zero"
+                )
+
     def on_submit(self):
         try:
             self.create_journal_entry()
