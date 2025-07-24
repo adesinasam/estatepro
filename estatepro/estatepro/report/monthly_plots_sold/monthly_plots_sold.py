@@ -20,7 +20,7 @@ def get_data(filters):
         SELECT
             DATE_FORMAT(ps.creation, %s) as month,
             COUNT(*) as plots_sold
-        FROM `tabPlot Sales` ps
+        FROM `tabPlot Sale` ps
         WHERE ps.docstatus = 1
             AND ps.creation >= DATE_SUB(CURDATE(), INTERVAL 12 MONTH)
             {conditions}

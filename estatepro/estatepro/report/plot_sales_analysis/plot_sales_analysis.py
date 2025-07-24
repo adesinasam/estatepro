@@ -23,7 +23,7 @@ def execute(filters=None):
             SUM(CASE WHEN pl.status = 'Available' THEN 1 ELSE 0 END) AS available,
             COUNT(*) AS total
         FROM `tabPlot` pl
-        LEFT JOIN `tabPlot Sales` ps ON ps.plot_name = pl.name AND ps.docstatus = 1
+        LEFT JOIN `tabPlot Sale` ps ON ps.plot_name = pl.name AND ps.docstatus = 1
         WHERE {conditions}
         GROUP BY pl.project
     """.format(conditions=conditions), filters, as_dict=True)
