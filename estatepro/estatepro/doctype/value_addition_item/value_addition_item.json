@@ -6,7 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "item_name"
+  "item_name",
+  "expense_account"
  ],
  "fields": [
   {
@@ -19,12 +20,22 @@
    "label": "Item Name",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "expense_account",
+   "fieldtype": "Link",
+   "label": "Expense Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expenses Included In Valuation\"]]",
+   "options": "Account",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-03-25 09:38:24.466209",
+ "modified": "2025-07-24 04:21:59.319758",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Value Addition Item",
@@ -45,6 +56,7 @@
   }
  ],
  "quick_entry": 1,
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

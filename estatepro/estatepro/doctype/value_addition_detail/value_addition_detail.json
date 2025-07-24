@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "value_addition_item",
+  "expense_account",
   "amount_spent"
  ],
  "fields": [
@@ -17,7 +18,8 @@
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Value Addition Item",
-   "options": "Value Addition Item"
+   "options": "Value Addition Item",
+   "reqd": 1
   },
   {
    "fieldname": "amount_spent",
@@ -28,18 +30,31 @@
    "label": "Amount Spent",
    "non_negative": 1,
    "reqd": 1
+  },
+  {
+   "fetch_from": "value_addition_item.expense_account",
+   "fieldname": "expense_account",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "label": "Expense Account",
+   "link_filters": "[[\"Account\",\"account_type\",\"=\",\"Expenses Included In Valuation\"]]",
+   "options": "Account",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-03-25 09:15:22.237869",
+ "modified": "2025-07-24 07:07:43.269063",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Value Addition Detail",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
