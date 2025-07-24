@@ -166,7 +166,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Plot Sale",
+   "options": "Plot Sales",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
@@ -291,6 +291,7 @@
    "read_only": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "balance",
    "fieldtype": "Currency",
    "in_filter": 1,
@@ -673,7 +674,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Plot Sale",
+   "options": "Plot Sales",
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
@@ -744,7 +745,7 @@
    "link_fieldname": "plot_sale"
   }
  ],
- "modified": "2025-07-22 21:53:18.624864",
+ "modified": "2025-07-24 13:57:00.255025",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Plot Sales",
@@ -752,6 +753,8 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "amend": 1,
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
