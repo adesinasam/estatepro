@@ -9,7 +9,11 @@
   "plot_size",
   "plot_prefix",
   "number_of_plots",
-  "valuation"
+  "valuation",
+  "column_break_srvz",
+  "size_per_plot",
+  "uom",
+  "total_size"
  ],
  "fields": [
   {
@@ -51,18 +55,44 @@
    "label": "Prefix",
    "options": "PLT\nBLK",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_srvz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "plot_size.size_no",
+   "fieldname": "size_per_plot",
+   "fieldtype": "Int",
+   "label": "Size per Plot",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "plot_size.uom",
+   "fieldname": "uom",
+   "fieldtype": "Link",
+   "label": "UOM",
+   "options": "UOM",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_size",
+   "fieldtype": "Data",
+   "label": "Total Size",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-06-21 19:35:15.708500",
+ "modified": "2025-07-17 05:02:43.241341",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Plot Details",
  "owner": "Administrator",
  "permissions": [],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

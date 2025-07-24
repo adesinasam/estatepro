@@ -322,7 +322,7 @@
  "icon": "fa fa-list",
  "in_create": 1,
  "links": [],
- "modified": "2025-07-10 06:10:12.627384",
+ "modified": "2025-07-22 18:40:17.910163",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Realtor GL Entry",
@@ -350,6 +350,12 @@
    "read": 1,
    "report": 1,
    "role": "Auditor"
+  },
+  {
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Realtor Manager"
   }
  ],
  "quick_entry": 1,
