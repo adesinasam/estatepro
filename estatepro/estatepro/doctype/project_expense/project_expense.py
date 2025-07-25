@@ -7,11 +7,10 @@ from frappe.model.document import Document
 
 class ProjectExpense(Document):
     def validate(self):
-        if not self.is_paid:
-            if not self.paying_account and self.amount > 0:
-                frappe.throw(
-                    f"Paying Account cannot be empty since Paid Amount is greater than zero"
-                )
+        if not self.paying_account and self.amount > 0:
+            frappe.throw(
+                f"Paying Account cannot be empty since Paid Amount is greater than zero"
+            )
 
     def on_submit(self):
         try:
@@ -22,43 +21,122 @@ class ProjectExpense(Document):
 
     def create_journal_entry(self):
         try:
-            # Fetch the expense account from the linked Expense Category
-            expense_category = frappe.get_doc("Expense Categories", self.expense_category)
-            expense_account = expense_category.expense_account
+            settings = frappe.get_single("EstatePro Accounts Settings")
+
+            creditors_account=settings.creditors_account
+            land_inventory_accont = settings.land_inventory_accont
 
             # Get the paying account from the Project Expense document
-            paying_account = self.paying_account
+            if self.amount > 0:
+                paying_account = self.paying_account
+                if not paying_account:
+                    frappe.throw("Paying account is not set.")
 
-            if not expense_account:
-                frappe.throw("Expense account is missing in the selected Project Expense Category.")
-            if not paying_account:
-                frappe.throw("Paying account is not set.")
+            if self.is_paid:
+                for expense_row in self.expenses:
+                    expense_account = expense_row.expense_account
+                    amount_spent = expense_row.amount_spent
 
-            # Create a Journal Entry
-            journal_entry = frappe.new_doc("Journal Entry")
-            journal_entry.voucher_type = "Journal Entry"
-            journal_entry.posting_date = frappe.utils.today()
-            journal_entry.user_remark = f"Expense for Project {self.project}"
+                    if not expense_account:
+                        frappe.throw(f"No Expense Account found for Value Addition Item {expense_row.value_addition_item}")
 
-            # Create Debit entry (Expense)
-            journal_entry.append("accounts", {
-                "account": expense_account,
-                "debit_in_account_currency": self.amount,
-                "credit_in_account_currency": 0,
-                "project": self.project
-            })
+                    #Create a Journal Entry
+                    journal_entry = frappe.new_doc("Journal Entry")
+                    journal_entry.voucher_type = "Journal Entry"
+                    journal_entry.posting_date = self.expense_date
+                    journal_entry.user_remark = f"Valuation addition expense for Estate Project {self.estate_project}"
 
-            # Create Credit entry (Paying Account)
-            journal_entry.append("accounts", {
-                "account": paying_account,
-                "credit_in_account_currency": self.amount,
-                "debit_in_account_currency": 0,
-                "project": self.project
-            })
+                    # 1 Create Debit entry (Land Stock)
+                    journal_entry.append("accounts", {
+                        "account": land_inventory_accont,
+                        "debit_in_account_currency": amount_spent,
+                        "credit_in_account_currency": 0,
+                        "project": self.project,
+                        "cost_center": self.cost_center
+                    })
 
-            # Submit the Journal Entry
-            journal_entry.insert()
-            journal_entry.submit()
+                    # 2 Create Credit entry (Expense Account)
+                    journal_entry.append("accounts", {
+                        "account": expense_account,
+                        "credit_in_account_currency": amount_spent,
+                        "debit_in_account_currency": 0,
+                        "project": self.project,
+                        "cost_center": self.cost_center
+                    })
+
+                    # 3 Create Debit entry (Expense Account)
+                    journal_entry.append("accounts", {
+                        "account": expense_account,
+                        "debit_in_account_currency": amount_spent,
+                        "credit_in_account_currency": 0,
+                        "project": self.project,
+                        "cost_center": self.cost_center
+                    })
+
+                    # 4 Create Credit entry (Paying Account)
+                    journal_entry.append("accounts", {
+                        "account": paying_account,
+                        "credit_in_account_currency": amount_spent,
+                        "debit_in_account_currency": 0,
+                        "project": self.project,
+                        "cost_center": self.cost_center
+                    })
+
+                    # Submit the Journal Entry
+                    journal_entry.insert()
+                    journal_entry.submit()
+
+            else:
+                # Create a Journal Entry
+                journal_entry = frappe.new_doc("Journal Entry")
+                journal_entry.voucher_type = "Journal Entry"
+                journal_entry.posting_date = self.expense_date
+                journal_entry.user_remark = f"Valuation addition expense for Estate Project {self.estate_project}"
+
+                # 1 Create Debit entry (Land Stock)
+                journal_entry.append("accounts", {
+                    "account": land_inventory_accont,
+                    "debit_in_account_currency": self.total_expense,
+                    "credit_in_account_currency": 0,
+                    "project": self.project,
+                    "cost_center": self.cost_center
+                })
+
+                # 2 Create Credit entry (Creditor Account)
+                journal_entry.append("accounts", {
+                    "account": creditors_account,
+                    "party_type": "Supplier",
+                    "party": self.supplier,
+                    "credit_in_account_currency": self.total_expense,
+                    "debit_in_account_currency": 0,
+                    "project": self.project,
+                    "cost_center": self.cost_center
+                })
+
+                if self.amount > 0:
+                    # 3 Create Debit entry (Creditor Account)
+                    journal_entry.append("accounts", {
+                        "account": creditors_account,
+                        "party_type": "Supplier",
+                        "party": self.supplier,
+                        "debit_in_account_currency": self.amount,
+                        "credit_in_account_currency": 0,
+                        "project": self.project,
+                        "cost_center": self.cost_center
+                    })
+
+                    # 4 Create Credit entry (Paying Account)
+                    journal_entry.append("accounts", {
+                        "account": paying_account,
+                        "credit_in_account_currency": self.amount,
+                        "debit_in_account_currency": 0,
+                        "project": self.project,
+                        "cost_center": self.cost_center
+                    })
+
+                # Submit the Journal Entry
+                journal_entry.insert()
+                journal_entry.submit()
 
             frappe.msgprint(f"Project Expense created successfully.")
         except frappe.DoesNotExistError as e:

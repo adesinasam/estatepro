@@ -66,4 +66,8 @@ function calculate_totals(frm) {
     
     frm.set_value("total_expense", total_expense);
     frm.set_value("difference_amount", difference_amount);
+    if (frm.doc.is_paid){
+        frm.set_value("amount", total_expense);
+        frm.set_value("difference_amount", 0);
+    }
 }

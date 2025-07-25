@@ -61,11 +61,6 @@ class PlotSales(Document):
 
     def on_submit(self):
         settings = frappe.get_single("EstatePro Accounts Settings")
-        # plot = frappe.get_doc("Plot", self.plot_name)
-        # if not self.plot_name:
-        #     frappe.throw("Plot is required to post to Plot Sales.")
-
-        # frappe.db.set_value("Plot", self.plot_name, "status", "Sold")
 
         debtors_account = self.debit_to
         unearned_revenue_account = settings.unearned_revenue_account

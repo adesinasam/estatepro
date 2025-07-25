@@ -70,6 +70,7 @@
    "in_standard_filter": 1,
    "label": "Paid Amount",
    "mandatory_depends_on": "eval:doc.is_paid===1",
+   "read_only_depends_on": "eval:doc.is_paid===1",
    "non_negative": 1
   },
   {

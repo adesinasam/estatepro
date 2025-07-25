@@ -34,8 +34,8 @@
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Plot Sale",
-   "options": "Plot Sale",
+   "label": "Plot Sales",
+   "options": "Plot Sales",
    "reqd": 1,
    "search_index": 1
   },
