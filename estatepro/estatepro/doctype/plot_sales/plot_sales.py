@@ -13,7 +13,7 @@ class PlotSales(Document):
         if frappe.flags.in_insert and frappe.db.exists("Plot Sales", self.name):
             frappe.throw("This Plot Sales record already exists.")
 
-        self.balance = flt(self.sale_amount) - flt(self.total_paid or 0)
+        self.balance = float(self.sale_amount) - float(self.total_paid or 0)
         self.project = frappe.db.get_value("Estate Project", self.estate_project, "project")
 
         # self.update_sales_team_from_customer()
@@ -64,7 +64,7 @@ class PlotSales(Document):
 
         debtors_account = self.debit_to
         unearned_revenue_account = settings.unearned_revenue_account
-        self.balance = flt(self.sale_amount) - flt(self.total_paid or 0)
+        self.balance = float(self.sale_amount) - float(self.total_paid or 0)
 
         if not self.customer:
             frappe.throw("Customer is required to post to Debtors account.")
