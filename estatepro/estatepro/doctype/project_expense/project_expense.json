@@ -11,13 +11,13 @@
   "company",
   "cost_center",
   "project",
+  "journal_entry",
   "column_break_bmdz",
   "expense_date",
   "is_paid",
   "supplier",
   "payment_to",
   "paying_account",
-  "expense_category",
   "amended_from",
   "estate_project_plot_details_section",
   "get_plot_size_details",
@@ -57,13 +57,6 @@
    "options": "Project",
    "read_only": 1,
    "reqd": 1
-  },
-  {
-   "fieldname": "expense_category",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Expense Category",
-   "options": "Expense Categories"
   },
   {
    "fieldname": "amount",
@@ -220,13 +213,21 @@
    "label": "Distribute Expenses Based On",
    "options": "Amount\nQty\nDistribute Manually",
    "reqd": 1
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-25 13:30:23.053801",
+ "modified": "2025-07-25 16:18:33.313293",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Project Expense",
