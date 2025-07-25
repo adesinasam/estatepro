@@ -105,10 +105,6 @@ class ReceivePayment(Document):
             "payment_status": "Paid" if new_balance <= 0 else "Partly Paid"
             })
         frappe.db.commit()
-        # frappe.db.set_value("Plot Sales", sale.name, "total_paid", total_paid)
-        # frappe.db.set_value("Plot Sales", sale.name, "balance", new_balance)
-        # frappe.db.set_value("Plot Sales", sale.name, "payment_status",
-        #     "Paid" if new_balance <= 0 else "Partly Paid")
        
         if sale.allow_installment == "Yes":
             if sale.down_payment_terms == "Amount":
@@ -152,19 +148,22 @@ class ReceivePayment(Document):
                 glentry.insert()
                 frappe.db.commit()
 
-                sale_team = frappe.get_doc(
+                sale_team = frappe.get_all(
                     "Sales Team", 
                     filters={
                         "sales_person": sales_person, 
                         "parent": sale.name, 
                         "parenttype": 'Plot Sales'
-                    }
+                    },
+                    fields=["name"],
+                    limit=1,
                 )
                 if sale_team:
-                    new_allocated_amount = flt(sale_team.custom_allocated_amount or 0) + flt(team.incentives or 0)
-                    new_outstanding = flt(sale_team.custom_outstanding or 0) + flt(team.incentives or 0)
-                    sale_team.db_set('custom_allocated_amount', new_allocated_amount)
-                    sale_team.db_set('custom_outstanding', new_outstanding)
+                    sale_team_doc = frappe.get_doc("Sales Team", sale_team[0].name)
+                    new_allocated_amount = flt(sale_team_doc.custom_allocated_amount or 0) + flt(team.incentives or 0)
+                    new_outstanding = flt(sale_team_doc.custom_outstanding or 0) + flt(team.incentives or 0)
+                    sale_team_doc.db_set('custom_allocated_amount', new_allocated_amount)
+                    sale_team_doc.db_set('custom_outstanding', new_outstanding)
                     frappe.db.commit()
 
             except Exception as e:
@@ -257,10 +256,6 @@ class ReceivePayment(Document):
             "payment_status": "Paid" if new_balance <= 0 else "Partly Paid"
             })
         frappe.db.commit()
-        # frappe.db.set_value("Plot Sales", sale.name, "total_paid", total_paid)
-        # frappe.db.set_value("Plot Sales", sale.name, "balance", new_balance)
-        # frappe.db.set_value("Plot Sales", sale.name, "payment_status",
-        #     "Paid" if new_balance <= 0 else "Partly Paid")
 
         # Revert payment schedule entries
         if sale.allow_installment == "Yes":
@@ -305,19 +300,22 @@ class ReceivePayment(Document):
         for team in team_names:
             try:
                 sales_person = team.sales_person
-                sale_team = frappe.get_doc(
+                sale_team = frappe.get_all(
                     "Sales Team", 
                     filters={
                         "sales_person": sales_person, 
                         "parent": sale.name, 
                         "parenttype": 'Plot Sales'
-                    }
+                    },
+                    fields=["name"],
+                    limit=1,
                 )
                 if sale_team:
-                    new_allocated_amount = flt(sale_team.custom_allocated_amount or 0) - flt(team.incentives or 0)
-                    new_outstanding = flt(sale_team.custom_outstanding or 0) - flt(team.incentives or 0)
-                    sale_team.db_set('custom_allocated_amount', new_allocated_amount)
-                    sale_team.db_set('custom_outstanding', new_outstanding)
+                    sale_team_doc = frappe.get_doc("Sales Team", sale_team[0].name)
+                    new_allocated_amount = flt(sale_team_doc.custom_allocated_amount or 0) - flt(team.incentives or 0)
+                    new_outstanding = flt(sale_team_doc.custom_outstanding or 0) - flt(team.incentives or 0)
+                    sale_team_doc.db_set('custom_allocated_amount', new_allocated_amount)
+                    sale_team_doc.db_set('custom_outstanding', new_outstanding)
                     frappe.db.commit()
             except Exception as e:
                 frappe.log_error(f"Failed to revert sales team allocation for {sales_person}", str(e))

@@ -17,12 +17,10 @@ frappe.ui.form.on("Plot Sales", {
                     }
                 });
             }, 'Actions');
-        }
 
         // Add "View Payment Schedule" button
-        if (!frm.is_new()) {
             frappe.call({
-                method: 'estatepro.estatepro.doctype.plot_sale.plot_sale.get_payment_schedule',
+                method: 'estatepro.estatepro.doctype.plot_sales.plot_sales.get_payment_schedule',
                 args: { plot_sale: frm.doc.name },
                 callback: function(r) {
                     if (r.message) {

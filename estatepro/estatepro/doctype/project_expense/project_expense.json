@@ -19,15 +19,18 @@
   "paying_account",
   "expense_category",
   "amended_from",
+  "estate_project_plot_details_section",
+  "get_plot_size_details",
+  "plots",
   "section_break_suvn",
   "expenses",
   "section_break_viow",
   "total_expense",
-  "difference_amount",
   "column_break_qibz",
+  "distribute_charges_based_on",
   "column_break_xhbx",
   "amount",
-  "remarks"
+  "difference_amount"
  ],
  "fields": [
   {
@@ -70,8 +73,8 @@
    "in_standard_filter": 1,
    "label": "Paid Amount",
    "mandatory_depends_on": "eval:doc.is_paid===1",
-   "read_only_depends_on": "eval:doc.is_paid===1",
-   "non_negative": 1
+   "non_negative": 1,
+   "read_only_depends_on": "eval:doc.is_paid===1"
   },
   {
    "fieldname": "paying_account",
@@ -84,6 +87,7 @@
    "options": "Account"
   },
   {
+   "default": "Today",
    "fieldname": "expense_date",
    "fieldtype": "Date",
    "in_filter": 1,
@@ -110,26 +114,23 @@
    "label": "Estate Project",
    "link_filters": "[[\"Estate Project\",\"docstatus\",\"=\",\"1\"],[\"Estate Project\",\"project_status\",\"=\",\"Open\"],[\"Estate Project\",\"is_active\",\"=\",\"Yes\"]]",
    "options": "Estate Project",
-   "reqd": 1
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "section_break_viow",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "remarks",
-   "fieldtype": "Small Text",
-   "label": "Remarks",
-   "reqd": 1
-  },
-  {
    "default": ":Company",
+   "fetch_from": "estate_project.cost_center",
    "fieldname": "cost_center",
    "fieldtype": "Link",
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Cost Center",
    "options": "Cost Center",
+   "read_only": 1,
    "reqd": 1,
    "search_index": 1
   },
@@ -194,13 +195,38 @@
   {
    "fieldname": "column_break_bmdz",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "estate_project_plot_details_section",
+   "fieldtype": "Section Break",
+   "label": "Estate Project Plot Details"
+  },
+  {
+   "fieldname": "get_plot_size_details",
+   "fieldtype": "Button",
+   "label": "Get Plot Size Details From Estate Project"
+  },
+  {
+   "fieldname": "plots",
+   "fieldtype": "Table",
+   "label": "Plot Size Details",
+   "no_copy": 1,
+   "options": "Expense Estate Project Details",
+   "reqd": 1
+  },
+  {
+   "fieldname": "distribute_charges_based_on",
+   "fieldtype": "Select",
+   "label": "Distribute Expenses Based On",
+   "options": "Amount\nQty\nDistribute Manually",
+   "reqd": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-07-24 05:21:37.341811",
+ "modified": "2025-07-25 13:30:23.053801",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Project Expense",

@@ -213,8 +213,8 @@ class PlotSales(Document):
                     "ordered_qty": ordered_qty,
                     "actual_qty": actual_qty,
                     "stock_value": stock_value
-                }, ignore_permissions=True)
-
+                })
+            
         # Delete payment schedule if exists
         payment_schedule = frappe.db.get_value("Plot Payment Schedule", {"plot_sale": self.name})
         if payment_schedule:

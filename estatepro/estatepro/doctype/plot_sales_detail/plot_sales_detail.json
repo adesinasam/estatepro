@@ -152,7 +152,6 @@
   },
   {
    "columns": 2,
-   "fetch_from": "land_bin.valuation_rate",
    "fieldname": "total_valuation",
    "fieldtype": "Currency",
    "label": "Total Valuation",
@@ -175,7 +174,7 @@
    "link_fieldname": "custom_landpro_reference"
   }
  ],
- "modified": "2025-07-21 12:28:14.490599",
+ "modified": "2025-07-25 08:49:32.136752",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Plot Sales Detail",

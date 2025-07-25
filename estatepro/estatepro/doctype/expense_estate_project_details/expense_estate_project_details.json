@@ -1,0 +1,95 @@
+{
+ "actions": [],
+ "creation": "2025-07-25 09:17:04.347282",
+ "doctype": "DocType",
+ "document_type": "Document",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "plot_size",
+  "estate_project",
+  "qty",
+  "col_break2",
+  "rate",
+  "amount",
+  "applicable_charges",
+  "estate_project_plot"
+ ],
+ "fields": [
+  {
+   "fieldname": "col_break2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "label": "Rate",
+   "options": "Company:company:default_currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "oldfieldname": "amount",
+   "oldfieldtype": "Currency",
+   "options": "Company:company:default_currency",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicable_charges",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Applicable Charges",
+   "options": "Company:company:default_currency",
+   "read_only_depends_on": "eval:parent.distribute_charges_based_on != 'Distribute Manually'"
+  },
+  {
+   "fieldname": "plot_size",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Plot Size",
+   "options": "Plot Size",
+   "read_only": 1,
+   "reqd": 1,
+   "width": "100px"
+  },
+  {
+   "fieldname": "estate_project",
+   "fieldtype": "Link",
+   "label": "Estate Project",
+   "options": "Estate Project",
+   "read_only": 1
+  },
+  {
+   "fieldname": "estate_project_plot",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Estate Project Plot",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-07-25 11:09:41.280897",
+ "modified_by": "Administrator",
+ "module": "EstatePro",
+ "name": "Expense Estate Project Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

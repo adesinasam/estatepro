@@ -319,6 +319,7 @@
    "fieldtype": "Link",
    "label": "Cost Center",
    "options": "Cost Center",
+   "reqd": 1,
    "search_index": 1
   },
   {
@@ -368,9 +369,14 @@
    "group": "Payments",
    "link_doctype": "Receive Payment",
    "link_fieldname": "estate_project"
+  },
+  {
+   "group": "Reference",
+   "link_doctype": "Project Expense",
+   "link_fieldname": "estate_project"
   }
  ],
- "modified": "2025-07-21 21:20:18.157205",
+ "modified": "2025-07-25 10:23:46.243253",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Estate Project",
