@@ -125,7 +125,7 @@ class PlotSales(Document):
 
         # Generate payment schedule
         project = frappe.get_doc("Estate Project", self.estate_project)
-        allow_installments = self.allow_installments
+        allow_installments = self.allow_installment
 
         if allow_installments == "Yes":
             if self.down_payment_terms == "Amount":
