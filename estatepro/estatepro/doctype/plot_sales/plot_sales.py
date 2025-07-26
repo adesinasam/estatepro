@@ -125,13 +125,13 @@ class PlotSales(Document):
 
         # Generate payment schedule
         project = frappe.get_doc("Estate Project", self.estate_project)
-        allow_installments = project.allow_installments
+        allow_installments = self.allow_installments
 
         if allow_installments == "Yes":
-            if project.down_payment_terms == "Amount":
-                down = round(project.down_payment_amount or 0, 2)
+            if self.down_payment_terms == "Amount":
+                down = round(self.down_payment_amount or 0, 2)
             else:  # Assume Percent
-                down_pct = float(project.set_downpayment_percentage or 0)
+                down_pct = float(self.set_downpayment_percentage or 0)
                 down = round(self.sale_amount * down_pct / 100, 2)
 
             balance = round(self.sale_amount - down, 2)
