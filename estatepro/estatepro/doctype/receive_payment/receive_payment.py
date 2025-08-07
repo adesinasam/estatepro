@@ -36,7 +36,7 @@ class ReceivePayment(Document):
         je.posting_date = self.posting_date
         je.company = frappe.defaults.get_user_default("Company")
         je.voucher_type = "Journal Entry"
-        je.remark = f"Payment received and income recognized for plot {sale.plot_name}"
+        je.remark = f"Payment received and income recognized for Plot Sales {sale.name}"
         je.project = self.project 
         je.title = self.name
 

@@ -1,8 +1,8 @@
 // Copyright (c) 2025, Adesina Akinyemi and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Realtor GL Entry", {
-// 	refresh(frm) {
-
-// 	},
-// });
+frappe.ui.form.on("Realtor GL Entry", {
+	refresh(frm) {
+		frm.page.btn_primary.hide();
+	},
+});
