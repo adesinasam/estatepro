@@ -127,47 +127,55 @@ class ReceivePayment(Document):
         sale = frappe.get_doc("Plot Sales", self.plot_sale)
         team_names = self.get("sales_team")
 
-        for team in team_names:
-            try:
-                sales_person = team.sales_person
+        # Set ignore permissions flag
+        frappe.flags.ignore_permissions = True
 
-                # Create GL Entry for each Realtor
-                glentry = frappe.new_doc("Realtor GL Entry")
-                glentry.posting_date = self.posting_date  
-                glentry.sales_person = team.sales_person
-                glentry.customer = self.customer
-                glentry.amount_paid = self.paid_amount
-                glentry.commission_percent = team.allocated_percentage
-                glentry.credit = float(team.incentives)
-                glentry.credit_in_account_currency = float(team.incentives)
-                glentry.voucher_type = "Receive Payment"
-                glentry.voucher_no = self.name
-                glentry.project = self.project
-                glentry.cost_center = self.cost_center
+        try:
+            for team in team_names:
+                try:
+                    sales_person = team.sales_person
 
-                glentry.insert()
-                frappe.db.commit()
+                    # Create GL Entry for each Realtor
+                    glentry = frappe.new_doc("Realtor GL Entry")
+                    glentry.posting_date = self.posting_date  
+                    glentry.sales_person = team.sales_person
+                    glentry.customer = self.customer
+                    glentry.amount_paid = self.paid_amount
+                    glentry.commission_percent = team.allocated_percentage
+                    glentry.credit = float(team.incentives)
+                    glentry.credit_in_account_currency = float(team.incentives)
+                    glentry.voucher_type = "Receive Payment"
+                    glentry.voucher_no = self.name
+                    glentry.project = self.project
+                    glentry.cost_center = self.cost_center
 
-                sale_team = frappe.get_all(
-                    "Sales Team", 
-                    filters={
-                        "sales_person": sales_person, 
-                        "parent": sale.name, 
-                        "parenttype": 'Plot Sales'
-                    },
-                    fields=["name"],
-                    limit=1,
-                )
-                if sale_team:
-                    sale_team_doc = frappe.get_doc("Sales Team", sale_team[0].name)
-                    new_allocated_amount = flt(sale_team_doc.custom_allocated_amount or 0) + flt(team.incentives or 0)
-                    new_outstanding = flt(sale_team_doc.custom_outstanding or 0) + flt(team.incentives or 0)
-                    sale_team_doc.db_set('custom_allocated_amount', new_allocated_amount)
-                    sale_team_doc.db_set('custom_outstanding', new_outstanding)
+                    glentry.insert()
                     frappe.db.commit()
 
-            except Exception as e:
-                frappe.log_error(f"Failed to create realtor GL entry for sales person {sales_person}", str(e))
+                    sale_team = frappe.get_all(
+                        "Sales Team", 
+                        filters={
+                            "sales_person": sales_person, 
+                            "parent": sale.name, 
+                            "parenttype": 'Plot Sales'
+                        },
+                        fields=["name"],
+                        limit=1,
+                    )
+                    if sale_team:
+                        sale_team_doc = frappe.get_doc("Sales Team", sale_team[0].name)
+                        new_allocated_amount = flt(sale_team_doc.custom_allocated_amount or 0) + flt(team.incentives or 0)
+                        new_outstanding = flt(sale_team_doc.custom_outstanding or 0) + flt(team.incentives or 0)
+                        sale_team_doc.db_set('custom_allocated_amount', new_allocated_amount)
+                        sale_team_doc.db_set('custom_outstanding', new_outstanding)
+                        frappe.db.commit()
+
+                except Exception as e:
+                    frappe.log_error(f"Failed to create realtor GL entry for sales person {sales_person}", str(e))
+
+        finally:
+            # Always reset the flag
+            frappe.flags.ignore_permissions = False
 
     def apply_to_payment_schedule(self):
         sched = frappe.get_doc("Plot Payment Schedule", {"plot_sale": self.plot_sale})
