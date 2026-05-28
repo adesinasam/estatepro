@@ -18,7 +18,6 @@
   "company",
   "payment_status",
   "sales_journal_entry",
-  "amended_from",
   "section_break_glqn",
   "plots",
   "section_break_qcgx",
@@ -86,7 +85,8 @@
   "customer_group",
   "col_break23",
   "remarks",
-  "connections_tab"
+  "connections_tab",
+  "amended_from"
  ],
  "fields": [
   {
@@ -534,6 +534,7 @@
   },
   {
    "fetch_from": "customer.default_sales_partner",
+   "fetch_if_empty": 1,
    "fieldname": "sales_partner",
    "fieldtype": "Link",
    "hide_days": 1,
@@ -745,7 +746,7 @@
    "link_fieldname": "plot_sale"
   }
  ],
- "modified": "2025-07-24 13:57:00.255025",
+ "modified": "2026-05-28 13:52:08.655697",
  "modified_by": "Administrator",
  "module": "EstatePro",
  "name": "Plot Sales",
@@ -797,6 +798,7 @@
   }
  ],
  "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
  "search_fields": "customer,estate_project",
  "sort_field": "modified",
  "sort_order": "DESC",
